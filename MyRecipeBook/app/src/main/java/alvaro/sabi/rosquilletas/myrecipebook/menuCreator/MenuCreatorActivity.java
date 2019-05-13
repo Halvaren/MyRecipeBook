@@ -10,6 +10,6 @@ public class MenuCreatorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_recipes_list_activity);
+        setContentView(R.layout.menu_creator_activity);
     }
 }

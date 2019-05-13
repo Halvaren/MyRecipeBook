@@ -10,6 +10,6 @@ public class ItemListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_recipes_list_activity);
+        setContentView(R.layout.item_list_activity);
     }
 }
