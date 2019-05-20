@@ -2,11 +2,11 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class RecipeTypesActivity extends AppCompatActivity {
 
@@ -24,7 +24,7 @@ public class RecipeTypesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_types_activity);
 
-        presenter = new RecipeTypesPresenter(this);
+        presenter = new RecipeTypesPresenter(this, this);
 
         appetizerButton = findViewById(R.id.appetizerButton);
         starterButton = findViewById(R.id.starterButton);
@@ -41,7 +41,7 @@ public class RecipeTypesActivity extends AppCompatActivity {
         presenter.requestButtonTexts();
     }
 
-    public void buttonTextsAvaible()
+    public void buttonTextsAvailable()
     {
         for(int i = 0; i < 6; i++)
         {
@@ -51,7 +51,7 @@ public class RecipeTypesActivity extends AppCompatActivity {
 
     public void getButtonText(int id)
     {
-        String text = "";
+        String text = presenter.getButtonText(id);
         switch(id)
         {
             case 0:

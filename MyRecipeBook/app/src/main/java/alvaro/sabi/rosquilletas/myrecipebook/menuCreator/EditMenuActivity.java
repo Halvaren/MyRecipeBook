@@ -1,9 +1,9 @@
 package alvaro.sabi.rosquilletas.myrecipebook.menuCreator;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class EditMenuActivity extends AppCompatActivity {
 

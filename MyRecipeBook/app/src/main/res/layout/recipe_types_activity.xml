@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/appetizerButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="8dp"
-        android:text="Appetizers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
         android:onClick="OnClickAppetizer"
+        android:text="Appetizers"
         app:layout_constraintBottom_toTopOf="@+id/secondCourseButton"
         app:layout_constraintEnd_toStartOf="@+id/starterButton"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -26,12 +22,10 @@
 
     <Button
         android:id="@+id/sauceButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Sauces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="OnClickSauce"
+        android:text="Sauces"
         app:layout_constraintBottom_toTopOf="@+id/drinkButton"
         app:layout_constraintEnd_toEndOf="@+id/starterButton"
         app:layout_constraintHorizontal_bias="0.0"
@@ -40,12 +34,10 @@
 
     <Button
         android:id="@+id/dessertButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="192dp"
-        android:text="Desserts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="OnClickDessert"
+        android:text="Desserts"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/secondCourseButton"
         app:layout_constraintStart_toStartOf="@+id/secondCourseButton"
@@ -53,12 +45,10 @@
 
     <Button
         android:id="@+id/drinkButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="192dp"
-        android:text="Drinks/Cocktail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="OnClickDrink"
+        android:text="Drinks/Cocktail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/sauceButton"
         app:layout_constraintStart_toStartOf="@+id/sauceButton"
@@ -66,16 +56,12 @@
 
     <Button
         android:id="@+id/starterButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="8dp"
-        android:text="Starters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
         android:onClick="OnClickStarter"
+        android:text="Starters"
         app:layout_constraintBottom_toTopOf="@+id/sauceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/appetizerButton"
@@ -83,14 +69,12 @@
 
     <Button
         android:id="@+id/secondCourseButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Second courses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="OnClickSecondCourse"
+        android:text="Second courses"
         app:layout_constraintBottom_toTopOf="@+id/dessertButton"
         app:layout_constraintEnd_toEndOf="@+id/appetizerButton"
         app:layout_constraintStart_toStartOf="@+id/appetizerButton"
         app:layout_constraintTop_toBottomOf="@+id/appetizerButton" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

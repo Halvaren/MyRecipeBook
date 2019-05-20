@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+            <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/shoppingListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Shopping List"
+                    app:layout_constraintEnd_toEndOf="@+id/editButton"
+                    app:layout_constraintTop_toBottomOf="@+id/editButton" />
+
+                <TextView
+        android:id="@+id/recipeNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="NombreReceta" />
+
+    <RatingBar
+        android:id="@+id/recipeRatingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        app:layout_constraintEnd_toEndOf="@+id/recipeNameText"
+        app:layout_constraintStart_toStartOf="@+id/recipeNameText"
+        app:layout_constraintTop_toBottomOf="@+id/recipeNameText"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <TextView
+        android:id="@+id/recipeTypeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/nIngredientsText"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeRatingBar"
+        tools:text="Tipo de receta: Aperitivo" />
+
+    <TextView
+        android:id="@+id/nIngredientsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/nStepsText"
+        app:layout_constraintStart_toStartOf="@+id/recipeTypeText"
+        app:layout_constraintTop_toBottomOf="@+id/recipeTypeText"
+        tools:text="Num. Ingredientes: 1" />
+
+    <TextView
+        android:id="@+id/nStepsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/nGuestsText"
+        app:layout_constraintStart_toStartOf="@+id/nIngredientsText"
+        app:layout_constraintTop_toBottomOf="@+id/nIngredientsText"
+        tools:text="Num. Pasos: 1" />
+
+    <TextView
+        android:id="@+id/nGuestsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/dificultyText"
+        app:layout_constraintStart_toStartOf="@+id/nStepsText"
+        app:layout_constraintTop_toBottomOf="@+id/nStepsText"
+        tools:text="Num. Personas: 1" />
+
+    <TextView
+        android:id="@+id/dificultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/nGuestsText"
+        app:layout_constraintTop_toBottomOf="@+id/nGuestsText"
+        tools:text="Dificultad: Muy fácil" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="2dp"
+        android:text="Delete"
+        app:layout_constraintBottom_toTopOf="@+id/editButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recipeTypeText"
+        app:layout_constraintTop_toBottomOf="@+id/recipeRatingBar" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:text="Edit"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingListButton"
+        app:layout_constraintEnd_toEndOf="@+id/deleteButton"
+        app:layout_constraintTop_toBottomOf="@+id/deleteButton" />
+
+    <Button
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="2dp"
+        android:text="See in detail"
+        app:layout_constraintEnd_toEndOf="@+id/shoppingListButton"
+        app:layout_constraintTop_toBottomOf="@+id/shoppingListButton" />
+</android.support.constraint.ConstraintLayout>
