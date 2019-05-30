@@ -31,4 +31,13 @@ public class MyRecipesListPresenter
     {
         view.setRecipeList(recipeList);
     }
+
+    public void deleteRecipe(Recipe recipe) {
+        model.deleteRecipe(recipe, new Response.Listener<Void>() {
+            @Override
+            public void onResponse(Void response) {
+                //Progress bar
+            }
+        });
+    }
 }

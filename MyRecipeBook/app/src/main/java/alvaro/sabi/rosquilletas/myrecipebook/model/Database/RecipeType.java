@@ -1,4 +1,5 @@
 package alvaro.sabi.rosquilletas.myrecipebook.model.Database;
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -7,11 +8,11 @@ import androidx.room.PrimaryKey;
 public class RecipeType {
     public RecipeType() {}
 
-    @PrimaryKey  public String name;
+    @PrimaryKey @NonNull public String name;
 
     public String toString() {return name;}
 
-    public RecipeType(String type){
-        this.name = type;
+    public RecipeType(String typeName){
+        this.name = typeName;
     }
 }
