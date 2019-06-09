@@ -3,6 +3,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -52,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editRecipeTypeText" />
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/editRecipeNGuestsSeekBar"
             style="@android:style/Widget.Material.SeekBar"
             android:layout_width="0dp"
             android:layout_height="22dp"
@@ -88,7 +89,7 @@
             android:layout_marginTop="8dp"
             android:text="Ingredients"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+            app:layout_constraintTop_toBottomOf="@+id/editRecipeNGuestsSeekBar" />
 
         <TextView
             android:id="@+id/editRecipeStepsText"
@@ -112,10 +113,11 @@
             android:background="@drawable/button_style"
             android:text="+"
             android:textSize="12dp"
-            app:layout_constraintEnd_toEndOf="@+id/seekBar"
+            android:onClick="addNewIngredient"
+            app:layout_constraintEnd_toEndOf="@+id/editRecipeNGuestsSeekBar"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/editRecipeIngredientsText"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+            app:layout_constraintTop_toBottomOf="@+id/editRecipeNGuestsSeekBar" />
 
         <Button
             android:id="@+id/editRecipeNewStepButton"
@@ -128,7 +130,8 @@
             android:background="@drawable/button_style"
             android:text="+"
             android:textSize="12dp"
-            app:layout_constraintEnd_toEndOf="@+id/seekBar"
+            android:onClick="addNewStep"
+            app:layout_constraintEnd_toEndOf="@+id/editRecipeNGuestsSeekBar"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/editRecipeStepsText"
             app:layout_constraintTop_toBottomOf="@+id/editRecipeIngredientList" />
@@ -136,12 +139,10 @@
         <ListView
             android:id="@+id/editRecipeIngredientList"
             android:layout_width="0dp"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -152,12 +153,10 @@
         <ListView
             android:id="@+id/editRecipeStepList"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editRecipeStepsText" />

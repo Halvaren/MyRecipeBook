@@ -22,6 +22,8 @@ import androidx.room.Room;
 
 public class Model {
 
+    private final String[] DIFFICULTY_NAMES = {"Very easy", "Easy", "Normal", "Hard", "Very hard"};
+
     private static Model instance; //Instancia estática que hace al modelo singleton
     private final Resources resources; //Será util para acceder a los txt que contienen las comunidades, provincias y pueblos en caso de que la database esté vacía
 
@@ -48,7 +50,7 @@ public class Model {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void getButtonTexts(final Response.Listener<Void> response, boolean checkTableEmpty) {
+    public void prepareRecipeTypeNames(final Response.Listener<Void> response, boolean checkTableEmpty) {
 
         if(checkTableEmpty)
         {
@@ -69,7 +71,7 @@ public class Model {
                     }
                     else
                     {
-                        getButtonTexts(response, false);
+                        prepareRecipeTypeNames(response, false);
                     }
                 }
             }.execute();
@@ -137,17 +139,18 @@ public class Model {
             protected void onPostExecute(Void aVoid)
             {
                 super.onPostExecute(aVoid);
-                getButtonTexts(response, false);
+                prepareRecipeTypeNames(response, false);
             }
         }.execute();
     }
 
-
-
-    public String getButtonText(int id)
+    public String getRecipeTypeName(int id)
     {
         return recipeTypeNames[id];
     }
+    public String[] getRecipeTypeNames() { return recipeTypeNames; }
+
+    public String[] getDifficultyNames() { return DIFFICULTY_NAMES; }
 
     @SuppressLint("StaticFieldLeak")
     public void getRecipeList(final Response.Listener<Recipe[]> response, final int recipeType) {

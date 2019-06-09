@@ -1,15 +1,146 @@
 package alvaro.sabi.rosquilletas.myrecipebook.newRecipe;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.IngredientStepListAdapter;
+import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.MyRecipeListAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditRecipeActivity extends AppCompatActivity {
+
+    private final String NUMBER_GUESTS_BASE_TEXT = "Number of guests: ";
+
+    private EditRecipePresenter presenter;
+
+    private EditText recipeName;
+    private Spinner recipeType;
+    private TextView numGuestsText;
+    private SeekBar numGuestsSeekBar;
+
+    private Button addIngredientButton;
+    private ListView ingredientList;
+
+    private Button addStepButton;
+    private ListView stepList;
+
+    private RatingBar valuation;
+    private Spinner difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_recipe_activity);
+
+        presenter = new EditRecipePresenter(this, this);
+
+        Intent intent = getIntent();
+        Recipe currentRecipe = intent.getParcelableExtra("Recipe");
+
+        recipeName = findViewById(R.id.editRecipeNameField);
+        recipeType = findViewById(R.id.editRecipeTypeSpinner);
+        numGuestsText = findViewById(R.id.editRecipeNGuestsText);
+        numGuestsSeekBar = findViewById(R.id.editRecipeNGuestsSeekBar);
+
+        addIngredientButton = findViewById(R.id.editRecipeNewIngredientButton);
+        addStepButton = findViewById(R.id.editRecipeNewStepButton);
+        ingredientList = findViewById(R.id.editRecipeIngredientList);
+        stepList = findViewById(R.id.editRecipeStepList);
+
+        IngredientStepListAdapter ingredientAdapter = new IngredientStepListAdapter(this, this, ingredientList);
+        ingredientList.setAdapter(ingredientAdapter);
+        ingredientAdapter.addIngredientStep();
+
+        IngredientStepListAdapter stepAdapter = new IngredientStepListAdapter(this, this, stepList);
+        stepList.setAdapter(stepAdapter);
+        stepAdapter.addIngredientStep();
+
+        valuation = findViewById(R.id.editRecipeRatingBar);
+        difficulty = findViewById(R.id.editRecipeDifficultySpinner);
+
+        presenter.requestRecipeTypeNames();
+
+        ArrayAdapter<String> difficultyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getDifficultyNames());
+        difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficulty.setAdapter(difficultyAdapter);
+
+        if(currentRecipe != null)
+        {
+            recipeName.setText(currentRecipe.name);
+        }
+
+        numGuestsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarUpdated();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBarUpdated();
+    }
+
+    public void recipeTypeNamesAvailable()
+    {
+        ArrayAdapter<String> recipeTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getRecipeTypeNames());
+        recipeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        recipeType.setAdapter(recipeTypeAdapter);
+    }
+
+    public void addNewIngredient(View view)
+    {
+        IngredientStepListAdapter adapter = (IngredientStepListAdapter) ingredientList.getAdapter();
+        adapter.addIngredientStep();
+    }
+
+    public void addNewStep(View view)
+    {
+        IngredientStepListAdapter adapter = (IngredientStepListAdapter) stepList.getAdapter();
+        adapter.addIngredientStep();
+    }
+
+    public void changeHeightList(ListView list)
+    {
+        IngredientStepListAdapter adapter = (IngredientStepListAdapter) list.getAdapter();
+
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, list);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = list.getLayoutParams();
+        params.height = totalHeight + (list.getDividerHeight() * (adapter.getCount() - 1));
+        list.setLayoutParams(params);
+        list.requestLayout();
+    }
+
+    public void seekBarUpdated()
+    {
+        numGuestsText.setText(NUMBER_GUESTS_BASE_TEXT + numGuestsSeekBar.getProgress());
     }
 }

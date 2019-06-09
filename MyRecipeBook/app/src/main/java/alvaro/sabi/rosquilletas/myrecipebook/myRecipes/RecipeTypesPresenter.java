@@ -19,7 +19,7 @@ public class RecipeTypesPresenter {
 
     public void requestButtonTexts()
     {
-        model.getButtonTexts(new Response.Listener<Void>() {
+        model.prepareRecipeTypeNames(new Response.Listener<Void>() {
             @Override
             public void onResponse(Void response) {
                 buttonTextsAvailable();
@@ -34,6 +34,6 @@ public class RecipeTypesPresenter {
 
     public String getButtonText(int id)
     {
-        return model.getButtonText(id);
+        return model.getRecipeTypeName(id);
     }
 }
