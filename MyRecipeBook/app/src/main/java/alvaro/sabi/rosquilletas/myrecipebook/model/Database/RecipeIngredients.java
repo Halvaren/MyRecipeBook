@@ -20,8 +20,8 @@ public class RecipeIngredients {
 
     public String toString() {return amount;}
 
-    public RecipeIngredients(String amount, String recipeName, String ingredientName) {
-        this.amount = amount;
+    public RecipeIngredients(/*String amount, */String recipeName, String ingredientName) {
+        //this.amount = amount;
         this.recipeName = recipeName;
         this.ingredientName = ingredientName;
     }

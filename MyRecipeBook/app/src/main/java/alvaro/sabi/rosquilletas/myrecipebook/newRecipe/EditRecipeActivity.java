@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.IngredientStepListAdapter;
 import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.MyRecipeListAdapter;
@@ -101,6 +102,20 @@ public class EditRecipeActivity extends AppCompatActivity {
         });
 
         seekBarUpdated();
+
+        if(savedInstanceState != null)
+        {
+            Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
+            presenter.setCurrentRecipe(recipe);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe()); //Hacer bien el parcelable
     }
 
     public void recipeTypeNamesAvailable()
@@ -142,5 +157,51 @@ public class EditRecipeActivity extends AppCompatActivity {
     public void seekBarUpdated()
     {
         numGuestsText.setText(NUMBER_GUESTS_BASE_TEXT + numGuestsSeekBar.getProgress());
+    }
+
+    public void finishRecipe(View view)
+    {
+        presenter.createRecipe(presenter.getCurrentRecipe());
+    }
+
+    public String getRecipeName()
+    {
+        return String.valueOf(recipeName.getText());
+    }
+    public int getRecipeTypeID()
+    {
+        return recipeType.getSelectedItemPosition();
+    }
+    public String getRecipeTypeName() { return (String) recipeType.getSelectedItem(); }
+    public int getNumGuests()
+    {
+        return numGuestsSeekBar.getProgress();
+    }
+    public float getValuation()
+    {
+        return valuation.getRating();
+    }
+    public int getDifficultyID()
+    {
+        return difficulty.getSelectedItemPosition();
+    }
+    public String getDifficultyName() { return (String) difficulty.getSelectedItem(); }
+    public ArrayList<String> getIngredientList() {
+        return ((IngredientStepListAdapter) ingredientList.getAdapter()).getIngredientStepList();
+    }
+    public ArrayList<String> getStepList() {
+        return ((IngredientStepListAdapter) stepList.getAdapter()).getIngredientStepList();
+    }
+
+    public void setRecipeName(String value) { recipeName.setText(value); }
+    public void setRecipeTypeID(int value) { recipeType.setSelection(value); }
+    public void setNumGuests(int value) { numGuestsSeekBar.setProgress(value); }
+    public void setValuation(float value) { valuation.setRating(value); }
+    public void setDifficultyID(int value) { difficulty.setSelection(value); }
+    public void setIngredientList(ArrayList<String> value) {
+        ((IngredientStepListAdapter) ingredientList.getAdapter()).setIngredientStepList(value);
+    }
+    public void setStepList(ArrayList<String> value) {
+        ((IngredientStepListAdapter) stepList.getAdapter()).setIngredientStepList(value);
     }
 }

@@ -49,7 +49,7 @@ public class MyRecipesListActivity extends AppCompatActivity {
 
     public void editRecipe(Recipe recipe) {
         Intent intent = new Intent(MyRecipesListActivity.this, EditRecipeActivity.class);
-        intent.putExtra("Recipe", (Parcelable) recipe);
+        intent.putExtra("Recipe", recipe);
 
         startActivity(intent);
     }
@@ -64,7 +64,7 @@ public class MyRecipesListActivity extends AppCompatActivity {
 
     public void showRecipe(Recipe recipe) {
         Intent intent = new Intent(MyRecipesListActivity.this, ShowRecipeActivity.class);
-        intent.putExtra("Recipe", (Parcelable) recipe);
+        intent.putExtra("Recipe", recipe);
 
         startActivity(intent);
     }

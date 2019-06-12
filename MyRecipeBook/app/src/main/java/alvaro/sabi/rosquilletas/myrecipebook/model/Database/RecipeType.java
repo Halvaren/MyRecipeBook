@@ -8,11 +8,14 @@ import androidx.room.PrimaryKey;
 public class RecipeType {
     public RecipeType() {}
 
-    @PrimaryKey @NonNull public String name;
+    @PrimaryKey @NonNull public int ID;
+    @NonNull public String name;
 
     public String toString() {return name;}
 
-    public RecipeType(String typeName){
+    public RecipeType(int ID, String typeName)
+    {
+        this.ID = ID;
         this.name = typeName;
     }
 }

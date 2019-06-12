@@ -65,11 +65,11 @@ public class MyRecipeListAdapter extends BaseAdapter {
         RatingBar recipeRatingBar = convertView.findViewById(R.id.recipeRatingBar);
 
         recipeNameText.setText(recipe.name);
-        recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipe.type);
-        nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipe.getIngredientsList().size());
-        nStepsText.setText(NUM_STEPS_BASE_TEXT + recipe.getStepsList().size());
-        nGuestsText.setText(NUM_GUESTS_BASE_TEXT + recipe.guest);
-        difficultyText.setText(DIFFICULTY_BASE_TEXT + recipe.difficult);
+        recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipe.typeName);
+        nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipe.getIngredientList().size());
+        nStepsText.setText(NUM_STEPS_BASE_TEXT + recipe.getStepList().size());
+        nGuestsText.setText(NUM_GUESTS_BASE_TEXT + recipe.guests);
+        difficultyText.setText(DIFFICULTY_BASE_TEXT + recipe.difficultyName);
 
         recipeRatingBar.setRating(recipe.valuation);
 
