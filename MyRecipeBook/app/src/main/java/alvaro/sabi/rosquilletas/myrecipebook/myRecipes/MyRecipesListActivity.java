@@ -61,7 +61,7 @@ public class MyRecipesListActivity extends AppCompatActivity {
 
     public void editRecipe(Recipe recipe) {
         Intent intent = new Intent(MyRecipesListActivity.this, EditRecipeActivity.class);
-        intent.putExtra("Recipe", recipe);
+        intent.putExtra("EditRecipe", recipe);
 
         startActivity(intent);
     }
