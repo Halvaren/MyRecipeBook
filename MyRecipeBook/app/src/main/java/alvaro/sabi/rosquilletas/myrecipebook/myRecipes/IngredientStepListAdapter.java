@@ -3,6 +3,7 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class IngredientStepListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return ingredientStepList.size();
+        if(ingredientStepList != null) return ingredientStepList.size();
+        return 0;
     }
 
     @Override
@@ -88,9 +90,9 @@ public class IngredientStepListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addIngredientStep()
+    public void addIngredientStep(String content)
     {
-        ingredientStepList.add("");
+        ingredientStepList.add(content);
 
         notifyDataSetChanged();
         view.changeHeightList(listView);
@@ -124,10 +126,9 @@ public class IngredientStepListAdapter extends BaseAdapter {
 
     public void setIngredientStepList(ArrayList<String> value)
     {
-        ingredientStepList = value;
-        for(int i = 0; i < getCount(); i++)
+        for(int i = 0; i < value.size(); i++)
         {
-            addIngredientStep();
+            addIngredientStep(value.get(i));
         }
     }
 }

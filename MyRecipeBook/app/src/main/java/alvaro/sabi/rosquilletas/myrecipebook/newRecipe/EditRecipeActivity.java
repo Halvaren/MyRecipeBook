@@ -2,6 +2,7 @@ package alvaro.sabi.rosquilletas.myrecipebook.newRecipe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -64,11 +65,9 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         IngredientStepListAdapter ingredientAdapter = new IngredientStepListAdapter(this, this, ingredientList);
         ingredientList.setAdapter(ingredientAdapter);
-        ingredientAdapter.addIngredientStep();
 
         IngredientStepListAdapter stepAdapter = new IngredientStepListAdapter(this, this, stepList);
         stepList.setAdapter(stepAdapter);
-        stepAdapter.addIngredientStep();
 
         valuation = findViewById(R.id.editRecipeRatingBar);
         difficulty = findViewById(R.id.editRecipeDifficultySpinner);
@@ -108,6 +107,11 @@ public class EditRecipeActivity extends AppCompatActivity {
             Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
             presenter.setCurrentRecipe(recipe);
         }
+        else
+        {
+            ingredientAdapter.addIngredientStep("");
+            stepAdapter.addIngredientStep("");
+        }
     }
 
     @Override
@@ -115,7 +119,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     {
         super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe()); //Hacer bien el parcelable
+        savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe());
     }
 
     public void recipeTypeNamesAvailable()
@@ -128,13 +132,13 @@ public class EditRecipeActivity extends AppCompatActivity {
     public void addNewIngredient(View view)
     {
         IngredientStepListAdapter adapter = (IngredientStepListAdapter) ingredientList.getAdapter();
-        adapter.addIngredientStep();
+        adapter.addIngredientStep("");
     }
 
     public void addNewStep(View view)
     {
         IngredientStepListAdapter adapter = (IngredientStepListAdapter) stepList.getAdapter();
-        adapter.addIngredientStep();
+        adapter.addIngredientStep("");
     }
 
     public void changeHeightList(ListView list)
@@ -200,6 +204,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     public void setDifficultyID(int value) { difficulty.setSelection(value); }
     public void setIngredientList(ArrayList<String> value) {
         ((IngredientStepListAdapter) ingredientList.getAdapter()).setIngredientStepList(value);
+        Log.d("adios", "adios");
     }
     public void setStepList(ArrayList<String> value) {
         ((IngredientStepListAdapter) stepList.getAdapter()).setIngredientStepList(value);
