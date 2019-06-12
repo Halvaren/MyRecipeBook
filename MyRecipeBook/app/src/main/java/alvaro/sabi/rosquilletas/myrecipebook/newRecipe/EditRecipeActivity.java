@@ -50,9 +50,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         presenter = new EditRecipePresenter(this, this);
 
-        Intent intent = getIntent();
-        Recipe currentRecipe = intent.getParcelableExtra("Recipe");
-
         recipeName = findViewById(R.id.editRecipeNameField);
         recipeType = findViewById(R.id.editRecipeTypeSpinner);
         numGuestsText = findViewById(R.id.editRecipeNGuestsText);
@@ -78,10 +75,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficulty.setAdapter(difficultyAdapter);
 
-        if(currentRecipe != null)
-        {
-            recipeName.setText(currentRecipe.name);
-        }
+        Intent intent = getIntent();
+        Recipe currentRecipe = intent.getParcelableExtra("EditRecipe");
+
 
         numGuestsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -109,8 +105,17 @@ public class EditRecipeActivity extends AppCompatActivity {
         }
         else
         {
-            ingredientAdapter.addIngredientStep("");
-            stepAdapter.addIngredientStep("");
+            if(currentRecipe != null){
+
+                Recipe recipe = savedInstanceState.getParcelable("EditRecipe");
+                presenter.setCurrentRecipe(recipe);
+            }
+            else {
+                ingredientAdapter.addIngredientStep("");
+                stepAdapter.addIngredientStep("");
+            }
+
+
         }
     }
 
