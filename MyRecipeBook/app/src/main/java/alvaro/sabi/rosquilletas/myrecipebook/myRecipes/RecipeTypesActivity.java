@@ -33,16 +33,6 @@ public class RecipeTypesActivity extends AppCompatActivity {
         dessertButton = findViewById(R.id.dessertButton);
         drinkButton = findViewById(R.id.drinkButton);
 
-        requestButtonTexts();
-    }
-
-    private void requestButtonTexts()
-    {
-        presenter.requestButtonTexts();
-    }
-
-    public void buttonTextsAvailable()
-    {
         for(int i = 0; i < 6; i++)
         {
             getButtonText(i);

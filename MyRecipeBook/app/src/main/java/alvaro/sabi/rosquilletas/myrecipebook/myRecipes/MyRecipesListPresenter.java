@@ -40,4 +40,14 @@ public class MyRecipesListPresenter
             }
         });
     }
+
+    public String getRecipeTypeName(int typeID)
+    {
+        return model.getRecipeTypeName(typeID);
+    }
+
+    public String getDifficultyName(int difficultyID)
+    {
+        return model.getDifficultyName(difficultyID);
+    }
 }

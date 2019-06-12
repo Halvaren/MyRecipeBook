@@ -58,7 +58,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/editRecipeDifficultyText"
+        app:layout_constraintEnd_toStartOf="@+id/difficultyText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeRatingBar"
         tools:text="Tipo de receta: Aperitivo" />
@@ -109,7 +109,7 @@
         tools:text="Num. Personas: 1" />
 
     <TextView
-        android:id="@+id/editRecipeDifficultyText"
+        android:id="@+id/difficultyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

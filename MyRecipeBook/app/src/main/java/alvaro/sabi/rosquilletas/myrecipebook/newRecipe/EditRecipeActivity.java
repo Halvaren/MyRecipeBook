@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import alvaro.sabi.rosquilletas.myrecipebook.MainActivity;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.IngredientStepListAdapter;
-import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.MyRecipeListAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditRecipeActivity extends AppCompatActivity {
@@ -72,7 +71,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         valuation = findViewById(R.id.editRecipeRatingBar);
         difficulty = findViewById(R.id.editRecipeDifficultySpinner);
 
-        presenter.requestRecipeTypeNames();
+        ArrayAdapter<String> recipeTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getRecipeTypeNames());
+        recipeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        recipeType.setAdapter(recipeTypeAdapter);
 
         ArrayAdapter<String> difficultyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getDifficultyNames());
         difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,13 +123,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe());
     }
 
-    public void recipeTypeNamesAvailable()
-    {
-        ArrayAdapter<String> recipeTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getRecipeTypeNames());
-        recipeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        recipeType.setAdapter(recipeTypeAdapter);
-    }
-
     public void addNewIngredient(View view)
     {
         IngredientStepListAdapter adapter = (IngredientStepListAdapter) ingredientList.getAdapter();
@@ -165,7 +159,34 @@ public class EditRecipeActivity extends AppCompatActivity {
 
     public void finishRecipe(View view)
     {
-        presenter.createRecipe(presenter.getCurrentRecipe());
+        if(checkFilledFields())
+        {
+            Recipe recipe = presenter.getCurrentRecipe();
+            presenter.createRecipe(recipe);
+
+            Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public boolean checkFilledFields()
+    {
+        if(recipeName.getText().toString().length() == 0)
+        {
+            Log.d("hola", "hola");
+            return false;
+        }
+        else if(((IngredientStepListAdapter) ingredientList.getAdapter()).checkFilledIngredientsSteps())
+        {
+            Log.d("hola", "adios");
+            return false;
+        }
+        else if(((IngredientStepListAdapter) stepList.getAdapter()).checkFilledIngredientsSteps())
+        {
+            Log.d("hola", "ard");
+            return false;
+        }
+        return true;
     }
 
     public String getRecipeName()
@@ -176,7 +197,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     {
         return recipeType.getSelectedItemPosition();
     }
-    public String getRecipeTypeName() { return (String) recipeType.getSelectedItem(); }
     public int getNumGuests()
     {
         return numGuestsSeekBar.getProgress();
@@ -189,7 +209,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     {
         return difficulty.getSelectedItemPosition();
     }
-    public String getDifficultyName() { return (String) difficulty.getSelectedItem(); }
     public ArrayList<String> getIngredientList() {
         return ((IngredientStepListAdapter) ingredientList.getAdapter()).getIngredientStepList();
     }
@@ -204,7 +223,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     public void setDifficultyID(int value) { difficulty.setSelection(value); }
     public void setIngredientList(ArrayList<String> value) {
         ((IngredientStepListAdapter) ingredientList.getAdapter()).setIngredientStepList(value);
-        Log.d("adios", "adios");
     }
     public void setStepList(ArrayList<String> value) {
         ((IngredientStepListAdapter) stepList.getAdapter()).setIngredientStepList(value);

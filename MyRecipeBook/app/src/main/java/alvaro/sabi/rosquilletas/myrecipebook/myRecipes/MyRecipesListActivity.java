@@ -31,11 +31,23 @@ public class MyRecipesListActivity extends AppCompatActivity {
         Log.d("Intent", String.valueOf(intent == null));
         int recipeType = intent.getIntExtra("RecipeType", 0);
 
+        String recipeTypeName = getRecipeTypeName(recipeType);
+
         myRecipesListView = findViewById(R.id.myRecipesListView);
-        MyRecipeListAdapter adapter = new MyRecipeListAdapter(this, this);
+        MyRecipeListAdapter adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
         myRecipesListView.setAdapter(adapter);
 
         requestRecipeList(recipeType);
+    }
+
+    public String getRecipeTypeName(int recipeType)
+    {
+        return presenter.getRecipeTypeName(recipeType);
+    }
+
+    public String getDifficultyName(int difficultyID)
+    {
+        return presenter.getDifficultyName(difficultyID);
     }
 
     private void requestRecipeList(int recipeType)

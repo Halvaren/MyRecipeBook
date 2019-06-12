@@ -131,4 +131,13 @@ public class IngredientStepListAdapter extends BaseAdapter {
             addIngredientStep(value.get(i));
         }
     }
+
+    public boolean checkFilledIngredientsSteps()
+    {
+        for(int i = 0; i < ingredientStepList.size(); i++)
+        {
+            if(ingredientStepList.get(i).length() == 0) return false;
+        }
+        return true;
+    }
 }

@@ -17,21 +17,6 @@ public class RecipeTypesPresenter {
         model = Model.getInstance(context);
     }
 
-    public void requestButtonTexts()
-    {
-        model.prepareRecipeTypeNames(new Response.Listener<Void>() {
-            @Override
-            public void onResponse(Void response) {
-                buttonTextsAvailable();
-            }
-        }, true);
-    }
-
-    public void buttonTextsAvailable()
-    {
-        view.buttonTextsAvailable();
-    }
-
     public String getButtonText(int id)
     {
         return model.getRecipeTypeName(id);

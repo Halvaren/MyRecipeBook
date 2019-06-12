@@ -20,18 +20,6 @@ public class EditRecipePresenter {
         model = Model.getInstance(context);
     }
 
-    public void requestRecipeTypeNames()
-    {
-        model.prepareRecipeTypeNames(new Response.Listener<Void>() {
-            @Override
-            public void onResponse(Void response) {
-                recipeTypeNamesAvailable();
-            }
-        }, true);
-    }
-
-    private void recipeTypeNamesAvailable() { view.recipeTypeNamesAvailable(); }
-
     public String[] getRecipeTypeNames(){
         return model.getRecipeTypeNames();
     }
@@ -54,11 +42,9 @@ public class EditRecipePresenter {
 
     public String getRecipeName() { return view.getRecipeName(); }
     public int getRecipeTypeID() { return view.getRecipeTypeID(); }
-    public String getRecipeTypeName() { return view.getRecipeTypeName(); }
     public int getNumGuests() { return view.getNumGuests(); }
     public float getValuation() { return view.getValuation(); }
     public int getDifficultyID() { return view.getDifficultyID(); }
-    public String getDifficultyName() { return view.getDifficultyName(); }
     public ArrayList<String> getIngredientList() { return view.getIngredientList(); }
     public ArrayList<String> getStepList() { return view.getStepList(); }
 

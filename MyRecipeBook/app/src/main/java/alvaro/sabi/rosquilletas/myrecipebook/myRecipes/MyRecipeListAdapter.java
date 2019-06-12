@@ -26,10 +26,13 @@ public class MyRecipeListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Recipe> myRecipesList;
 
-    public MyRecipeListAdapter(MyRecipesListActivity view, Context context)
+    private String recipeTypeName;
+
+    public MyRecipeListAdapter(MyRecipesListActivity view, Context context, String recipeTypeName)
     {
         this.view = view;
         this.context = context;
+        this.recipeTypeName = recipeTypeName;
 
         myRecipesList = new ArrayList<>();
     }
@@ -60,16 +63,16 @@ public class MyRecipeListAdapter extends BaseAdapter {
         TextView nIngredientsText = convertView.findViewById(R.id.nIngredientsText);
         TextView nGuestsText = convertView.findViewById(R.id.nGuestsText);
         TextView nStepsText = convertView.findViewById(R.id.nStepsText);
-        TextView difficultyText = convertView.findViewById(R.id.editRecipeDifficultyText);
+        TextView difficultyText = convertView.findViewById(R.id.difficultyText);
 
         RatingBar recipeRatingBar = convertView.findViewById(R.id.recipeRatingBar);
 
         recipeNameText.setText(recipe.name);
-        recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipe.typeName);
+        recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipeTypeName);
         nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipe.getIngredientList().size());
         nStepsText.setText(NUM_STEPS_BASE_TEXT + recipe.getStepList().size());
         nGuestsText.setText(NUM_GUESTS_BASE_TEXT + recipe.guests);
-        difficultyText.setText(DIFFICULTY_BASE_TEXT + recipe.difficultyName);
+        difficultyText.setText(DIFFICULTY_BASE_TEXT + view.getDifficultyName(recipe.difficultyID));
 
         recipeRatingBar.setRating(recipe.valuation);
 

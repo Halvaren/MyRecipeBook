@@ -25,12 +25,10 @@ import androidx.room.Room;
 
 public class Model {
 
+    private final String[] RECIPE_TYPE_NAMES = { "Appetizer", "Starter", "Second Course", "Sauce", "Dessert", "Drink/Cocktail"};
     private final String[] DIFFICULTY_NAMES = {"Very easy", "Easy", "Normal", "Hard", "Very hard"};
 
     private static Model instance; //Instancia estática que hace al modelo singleton
-    private final Resources resources; //Será util para acceder a los txt que contienen las comunidades, provincias y pueblos en caso de que la database esté vacía
-
-    private String[] recipeTypeNames;
 
     private RecipeDatabase database;
     private RecipeDao dao;
@@ -40,7 +38,6 @@ public class Model {
     //Este constructor es privado ya que sigue el modelo singleton
     private Model(Context context)
     {
-        resources = context.getResources();
         database = Room.databaseBuilder(context, RecipeDatabase.class, "recipe-database").fallbackToDestructiveMigration().build();
         dao = database.recipeDao();
     }
@@ -54,109 +51,13 @@ public class Model {
         return instance;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public void prepareRecipeTypeNames(final Response.Listener<Void> response, boolean checkTableEmpty) {
-
-        if(checkTableEmpty)
-        {
-            new AsyncTask<Void, Void, Integer>()
-            {
-
-                @Override
-                protected Integer doInBackground(Void... voids) {
-                    return dao.recipeTypeNamesNumberOfRows();
-                }
-
-                protected void onPostExecute(Integer rows)
-                {
-                    super.onPostExecute(rows);
-                    if(rows == 0)
-                    {
-                        initializeRecipeTypeTable(response);
-                    }
-                    else
-                    {
-                        prepareRecipeTypeNames(response, false);
-                    }
-                }
-            }.execute();
-        }
-        else
-        {
-            new AsyncTask<Void, Void, String[]>() {
-
-                @Override
-                protected String[] doInBackground(Void... voids) {
-                    return dao.loadAllRecipeTypeNames();
-                }
-
-                protected void onPostExecute(String[] result)
-                {
-                    super.onPostExecute(result);
-                    if(result == null || result.length == 0)
-                    {
-                        //errorResponse.onResponse(databaseError);
-                    }
-                    else
-                    {
-                        recipeTypeNames = result;
-                        response.onResponse(null);
-                    }
-                }
-            }.execute();
-        }
-    }
-
-    private void initializeRecipeTypeTable(Response.Listener<Void> response)
-    {
-        ArrayList<RecipeType> recipeTypeList = new ArrayList<>();
-
-        InputStream stream = resources.openRawResource(R.raw.recipe_types);
-        Scanner scanner = new Scanner(stream);
-
-        int id = 0;
-        String line;
-        while(scanner.hasNextLine())
-        {
-            line = scanner.nextLine();
-            recipeTypeList.add(new RecipeType(id, line));
-            id++;
-        }
-        scanner.close();
-
-        RecipeType[] recipeTypeArray = new RecipeType[recipeTypeList.size()];
-
-        recipeTypeArray = recipeTypeList.toArray(recipeTypeArray);
-
-        insertRecipeTypeNames(recipeTypeArray, response);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private void insertRecipeTypeNames(final RecipeType[] recipeTypeNameArray, final Response.Listener<Void> response)
-    {
-        new AsyncTask<Void, Void, Void>()
-        {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                dao.insertRecipeTypeNames(recipeTypeNameArray);
-                return null;
-            }
-
-            protected void onPostExecute(Void aVoid)
-            {
-                super.onPostExecute(aVoid);
-                prepareRecipeTypeNames(response, false);
-            }
-        }.execute();
-    }
-
     public String getRecipeTypeName(int id)
     {
-        return recipeTypeNames[id];
+        return RECIPE_TYPE_NAMES[id];
     }
-    public String[] getRecipeTypeNames() { return recipeTypeNames; }
+    public String[] getRecipeTypeNames() { return RECIPE_TYPE_NAMES; }
 
+    public String getDifficultyName(int id) { return DIFFICULTY_NAMES[id]; }
     public String[] getDifficultyNames() { return DIFFICULTY_NAMES; }
 
     @SuppressLint("StaticFieldLeak")
@@ -201,13 +102,11 @@ public class Model {
     {
         String recipeName = presenter.getRecipeName();
         int recipeTypeID = presenter.getRecipeTypeID();
-        String recipeTypeName = presenter.getRecipeTypeName();
 
         int numGuests = presenter.getNumGuests();
         float valuation = presenter.getValuation();
 
         int difficultyID = presenter.getDifficultyID();
-        String difficultyName = presenter.getDifficultyName();
 
         ArrayList<String> ingredientNamesList = presenter.getIngredientList();
         ArrayList<String> stepNamesList = presenter.getStepList();
@@ -229,9 +128,6 @@ public class Model {
 
         currentRecipe.setIngredientList(ingredientList);
         currentRecipe.setStepList(stepList);
-
-        currentRecipe.typeName = recipeTypeName;
-        currentRecipe.difficultyName = difficultyName;
 
         recipe = currentRecipe;
     }

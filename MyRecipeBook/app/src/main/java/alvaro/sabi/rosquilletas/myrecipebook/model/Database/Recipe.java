@@ -29,11 +29,6 @@ public class Recipe implements Parcelable {
     @Ignore
     private ArrayList<Ingredient> ingredientList;
 
-    @Ignore
-    public String typeName;
-    @Ignore
-    public String difficultyName;
-
     public Recipe(String name, float valuation, int guests, int difficultyID, int typeID) {
         this.name = name;
         this.valuation = valuation;

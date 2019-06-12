@@ -188,13 +188,13 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/editRecipeDifficultyText"
+            app:layout_constraintBottom_toTopOf="@+id/difficultyText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editRecipeRatingText" />
 
         <TextView
-            android:id="@+id/editRecipeDifficultyText"
+            android:id="@+id/difficultyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -216,7 +216,7 @@
             app:layout_constraintBottom_toTopOf="@+id/editRecipeFinishButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editRecipeDifficultyText" />
+            app:layout_constraintTop_toBottomOf="@+id/difficultyText" />
 
         <Button
             android:id="@+id/editRecipeFinishButton"
