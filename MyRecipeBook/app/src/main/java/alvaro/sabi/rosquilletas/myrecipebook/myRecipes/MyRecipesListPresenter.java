@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.android.volley.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import alvaro.sabi.rosquilletas.myrecipebook.Model;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 
@@ -19,17 +22,17 @@ public class MyRecipesListPresenter
     }
 
     public void requestRecipeList(int recipeType) {
-        model.getRecipeList(new Response.Listener<Recipe[]>() {
+        model.getRecipeList(new Response.Listener<ArrayList<Object>>() {
             @Override
-            public void onResponse(Recipe[] response) {
-                sendRecipeList(response);
+            public void onResponse(ArrayList<Object> response) {
+                setRecipes(response);
             }
         }, recipeType);
     }
 
-    public void sendRecipeList(Recipe[] recipeList)
+    public void setRecipes(ArrayList<Object> recipeIngredientsSteps)
     {
-        view.setRecipeList(recipeList);
+        view.setRecipeList((Recipe[]) recipeIngredientsSteps.get(0), (Integer[]) recipeIngredientsSteps.get(1), (Integer[]) recipeIngredientsSteps.get(2));
     }
 
     public void deleteRecipe(Recipe recipe) {

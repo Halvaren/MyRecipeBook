@@ -42,6 +42,9 @@ public class EditRecipeActivity extends AppCompatActivity {
     private RatingBar valuation;
     private Spinner difficulty;
 
+    private IngredientStepListAdapter ingredientListAdapter;
+    private IngredientStepListAdapter stepListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +62,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         ingredientList = findViewById(R.id.editRecipeIngredientList);
         stepList = findViewById(R.id.editRecipeStepList);
 
-        IngredientStepListAdapter ingredientAdapter = new IngredientStepListAdapter(this, this, ingredientList);
-        ingredientList.setAdapter(ingredientAdapter);
+        ingredientListAdapter = new IngredientStepListAdapter(this, this, ingredientList);
+        ingredientList.setAdapter(ingredientListAdapter);
 
-        IngredientStepListAdapter stepAdapter = new IngredientStepListAdapter(this, this, stepList);
-        stepList.setAdapter(stepAdapter);
+        stepListAdapter = new IngredientStepListAdapter(this, this, stepList);
+        stepList.setAdapter(stepListAdapter);
 
         valuation = findViewById(R.id.editRecipeRatingBar);
         difficulty = findViewById(R.id.editRecipeDifficultySpinner);
@@ -75,10 +78,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         ArrayAdapter<String> difficultyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getDifficultyNames());
         difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficulty.setAdapter(difficultyAdapter);
-
-        Intent intent = getIntent();
-        Recipe currentRecipe = intent.getParcelableExtra("EditRecipe");
-
 
         numGuestsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -103,17 +102,24 @@ public class EditRecipeActivity extends AppCompatActivity {
         {
             Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
             presenter.setCurrentRecipe(recipe);
+
+            setIngredientList(savedInstanceState.getStringArrayList("IngredientList"));
+            setStepList(savedInstanceState.getStringArrayList("StepList"));
         }
         else
         {
-            if(currentRecipe != null){
-
-                Recipe recipe = savedInstanceState.getParcelable("EditRecipe");
-                presenter.setCurrentRecipe(recipe);
+            Intent intent = getIntent();
+            Recipe currentRecipe = intent.getParcelableExtra("EditRecipe");
+            if(currentRecipe != null)
+            {
+                presenter.setCurrentRecipe(currentRecipe);
+                presenter.getIngredientListFromRecipe(currentRecipe);
+                presenter.getStepListFromRecipe(currentRecipe);
             }
-            else {
-                ingredientAdapter.addIngredientStep("");
-                stepAdapter.addIngredientStep("");
+            else
+            {
+                ingredientListAdapter.addIngredientStep("");
+                stepListAdapter.addIngredientStep("");
             }
 
 
@@ -126,6 +132,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe());
+        savedInstanceState.putStringArrayList("IngredientList", getIngredientList());
+        savedInstanceState.putStringArrayList("StepList", getStepList());
     }
 
     public void addNewIngredient(View view)
@@ -167,7 +175,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(checkFilledFields())
         {
             Recipe recipe = presenter.getCurrentRecipe();
-            presenter.createRecipe(recipe);
+            presenter.createRecipe(recipe, getIngredientList(), getStepList());
 
             Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
             startActivity(intent);
@@ -178,17 +186,14 @@ public class EditRecipeActivity extends AppCompatActivity {
     {
         if(recipeName.getText().toString().length() == 0)
         {
-            Log.d("hola", "hola");
             return false;
         }
         else if(((IngredientStepListAdapter) ingredientList.getAdapter()).checkFilledIngredientsSteps())
         {
-            Log.d("hola", "adios");
             return false;
         }
         else if(((IngredientStepListAdapter) stepList.getAdapter()).checkFilledIngredientsSteps())
         {
-            Log.d("hola", "ard");
             return false;
         }
         return true;
@@ -215,10 +220,10 @@ public class EditRecipeActivity extends AppCompatActivity {
         return difficulty.getSelectedItemPosition();
     }
     public ArrayList<String> getIngredientList() {
-        return ((IngredientStepListAdapter) ingredientList.getAdapter()).getIngredientStepList();
+        return ingredientListAdapter.getIngredientStepList();
     }
     public ArrayList<String> getStepList() {
-        return ((IngredientStepListAdapter) stepList.getAdapter()).getIngredientStepList();
+        return stepListAdapter.getIngredientStepList();
     }
 
     public void setRecipeName(String value) { recipeName.setText(value); }
@@ -227,9 +232,9 @@ public class EditRecipeActivity extends AppCompatActivity {
     public void setValuation(float value) { valuation.setRating(value); }
     public void setDifficultyID(int value) { difficulty.setSelection(value); }
     public void setIngredientList(ArrayList<String> value) {
-        ((IngredientStepListAdapter) ingredientList.getAdapter()).setIngredientStepList(value);
+        ingredientListAdapter.setIngredientStepList(value);
     }
     public void setStepList(ArrayList<String> value) {
-        ((IngredientStepListAdapter) stepList.getAdapter()).setIngredientStepList(value);
+        stepListAdapter.setIngredientStepList(value);
     }
 }

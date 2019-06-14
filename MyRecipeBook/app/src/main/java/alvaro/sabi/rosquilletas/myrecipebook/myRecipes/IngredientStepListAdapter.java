@@ -136,8 +136,8 @@ public class IngredientStepListAdapter extends BaseAdapter {
     {
         for(int i = 0; i < ingredientStepList.size(); i++)
         {
-            if(ingredientStepList.get(i).length() == 0) return false;
+            if(ingredientStepList.get(i).length() == 0) return true;
         }
-        return true;
+        return false;
     }
 }

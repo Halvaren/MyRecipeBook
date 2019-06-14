@@ -10,13 +10,10 @@ import androidx.room.Update;
 public interface RecipeDao {
 
     @Insert
-    void insertRecipeTypeNames(RecipeType... recipeType);
+    long insertRecipe(Recipe recipe);
 
     @Insert
-    void insertRecipe(Recipe recipe);
-
-    @Insert
-    void insertIngredients(Ingredient... ingredients);
+    long[] insertIngredients(Ingredient... ingredients);
 
     @Insert
     void insertSteps(StepToFollow... steps);
@@ -30,11 +27,11 @@ public interface RecipeDao {
     @Query("SELECT count(*) FROM Recipes WHERE name = :recipeName")
     int checkRecipeExists(String recipeName);
 
-    @Query("SELECT name FROM RecipeType")
-    String[] loadAllRecipeTypeNames();
+    @Query("SELECT count(*) FROM RecipeIngredients WHERE recipeID = :recipeID")
+    int nIngredientsOfRecipe(int recipeID);
 
-    @Query("SELECT count(*) FROM RecipeType")
-    int recipeTypeNamesNumberOfRows();
+    @Query("SELECT count(*) FROM StepsToFollow WHERE recipeID = :recipeID")
+    int nStepsOfRecipe(int recipeID);
 
     @Query("SELECT * FROM Recipes")
     Recipe[] loadAllRecipes();
@@ -42,15 +39,15 @@ public interface RecipeDao {
     @Query("SELECT * FROM Recipes WHERE typeID = :recipeType")
     Recipe[] loadAllRecipesOfType(int recipeType);
 
-    @Query("SELECT * FROM RecipeIngredients WHERE recipeName = :recipeName")
-    RecipeIngredients[] loadAllRecipeIngredientsFromRecipe(String recipeName);
+    @Query("SELECT * FROM RecipeIngredients WHERE recipeID = :recipeID")
+    RecipeIngredients[] loadAllRecipeIngredientsFromRecipe(int recipeID);
 
-    @Query("SELECT * FROM Ingredients WHERE name IN " +
-            "(SELECT ingredientName FROM RecipeIngredients WHERE recipeName = :recipeName)")
-    Ingredient[] loadAllIngredientsFromRecipe(String recipeName);
+    @Query("SELECT * FROM Ingredients WHERE id IN " +
+            "(SELECT ingredientID FROM RecipeIngredients WHERE recipeID = :recipeID)")
+    Ingredient[] loadAllIngredientsFromRecipe(int recipeID);
 
-    @Query("SELECT * FROM StepsToFollow WHERE recipeName = :recipeName")
-    StepToFollow[] loadAllStepToFollowFromRecipe(String recipeName);
+    @Query("SELECT * FROM StepsToFollow WHERE recipeID = :recipeID")
+    StepToFollow[] loadAllStepToFollowFromRecipe(int recipeID);
 
     @Delete
     int deleteRecipe(Recipe recipe);

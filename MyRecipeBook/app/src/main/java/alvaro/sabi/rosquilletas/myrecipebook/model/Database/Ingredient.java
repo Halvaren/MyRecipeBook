@@ -4,16 +4,18 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName =  "Ingredients")
 public class Ingredient implements Parcelable {
     public Ingredient() {}
 
-    @PrimaryKey @NonNull public String name;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    @NonNull public String name;
 
     protected Ingredient(Parcel in) {
+        id = in.readInt();
         name = in.readString();
     }
 
@@ -42,6 +44,7 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
     }
 }

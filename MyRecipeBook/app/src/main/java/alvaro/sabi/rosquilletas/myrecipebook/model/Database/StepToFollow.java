@@ -9,24 +9,23 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName =  "StepsToFollow",
-        foreignKeys = {@ForeignKey(entity = Recipe.class, parentColumns = "name",
-                childColumns = "recipeName")},
-        primaryKeys = {"recipeName", "id"})
+        foreignKeys = {@ForeignKey(entity = Recipe.class, parentColumns = "id",
+                childColumns = "recipeID")},
+        primaryKeys = {"recipeID", "id"})
 public class StepToFollow implements Parcelable {
     public StepToFollow() {}
     public int id;
-    @NonNull public String recipeName;
+    public int recipeID;
     public String description;
 
-    public StepToFollow(int id, String recipeName, String description) {
+    public StepToFollow(int id, String description) {
         this.id = id;
-        this.recipeName = recipeName;
         this.description = description;
     }
 
     protected StepToFollow(Parcel in) {
         id = in.readInt();
-        recipeName = in.readString();
+        recipeID = in.readInt();
         description = in.readString();
     }
 
@@ -50,7 +49,7 @@ public class StepToFollow implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeString(recipeName);
+        dest.writeInt(recipeID);
         dest.writeString(description);
     }
 }

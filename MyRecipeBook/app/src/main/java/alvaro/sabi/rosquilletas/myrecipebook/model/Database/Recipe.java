@@ -9,25 +9,22 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Recipes")
+@Entity(tableName = "Recipes", indices = @Index(value = {"name"}, unique = true))
 //@Entity(foreignKeys =  @ForeignKey(entity = RecipeType.class, parentColumns = "name", childColumns = "type"))
 public class Recipe implements Parcelable {
     public Recipe () {}
-    @PrimaryKey @NonNull public String name;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    @NonNull public String name;
     public float valuation;
     public int guests;
     public int difficultyID;
 
-    @ForeignKey(entity = RecipeType.class, parentColumns = "ID", childColumns = "typeID")
     @ColumnInfo (name = "typeID")
     public int typeID;
-
-    @Ignore
-    private ArrayList<StepToFollow> stepList;
-    @Ignore
-    private ArrayList<Ingredient> ingredientList;
 
     public Recipe(String name, float valuation, int guests, int difficultyID, int typeID) {
         this.name = name;
@@ -37,21 +34,14 @@ public class Recipe implements Parcelable {
         this.typeID = typeID;
     }
 
-    public ArrayList<StepToFollow> getStepList() { return stepList; }
-    public ArrayList<Ingredient> getIngredientList() { return ingredientList; }
-
-    public void setStepList(ArrayList<StepToFollow> value) { stepList = value; }
-    public void setIngredientList(ArrayList<Ingredient> value) { ingredientList = value; }
-
 
     protected Recipe(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         valuation = in.readFloat();
         guests = in.readInt();
         difficultyID = in.readInt();
         typeID = in.readInt();
-        ingredientList = in.readArrayList(Ingredient.class.getClassLoader());
-        stepList = in.readArrayList(StepToFollow.class.getClassLoader());
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -73,12 +63,11 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeFloat(valuation);
         dest.writeInt(guests);
         dest.writeInt(difficultyID);
         dest.writeInt(typeID);
-        dest.writeList(ingredientList);
-        dest.writeList(stepList);
     }
 }

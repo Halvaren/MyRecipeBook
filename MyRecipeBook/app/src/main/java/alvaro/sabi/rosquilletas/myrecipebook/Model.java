@@ -2,23 +2,21 @@ package alvaro.sabi.rosquilletas.myrecipebook;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Response;
 
-import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeDao;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeDatabase;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeIngredients;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeType;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.StepToFollow;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipePresenter;
 import androidx.room.Room;
@@ -61,28 +59,30 @@ public class Model {
     public String[] getDifficultyNames() { return DIFFICULTY_NAMES; }
 
     @SuppressLint("StaticFieldLeak")
-    public void getRecipeList(final Response.Listener<Recipe[]> response, final int recipeType) {
+    public void getRecipeList(final Response.Listener<ArrayList<Object>> response, final int recipeType) {
 
-        new AsyncTask<Void, Void, Recipe[]>() {
+        new AsyncTask<Void, Void, ArrayList<Object>>() {
             @Override
-            protected Recipe[] doInBackground(Void... voids) {
+            protected ArrayList<Object> doInBackground(Void... voids) {
                 Recipe[] recipeList = dao.loadAllRecipesOfType(recipeType); //Asegurado que este valor empieza en 0
+                Integer[] nIngredientList = new Integer[recipeList.length];
+                Integer[] nStepList = new Integer[recipeList.length];
 
                 for(int i = 0; i < recipeList.length; i++)
                 {
-                    Ingredient[] ingredientArray = dao.loadAllIngredientsFromRecipe(recipeList[i].name);
-                    ArrayList<Ingredient> ingredientList = new ArrayList<>(Arrays.asList(ingredientArray));
-                    recipeList[i].setIngredientList(ingredientList);
-
-                    StepToFollow[] stepArray = dao.loadAllStepToFollowFromRecipe(recipeList[i].name);
-                    ArrayList<StepToFollow> stepList = new ArrayList<>(Arrays.asList(stepArray));
-                    recipeList[i].setStepList(stepList);
+                    nIngredientList[i] = dao.nIngredientsOfRecipe(recipeList[i].id);
+                    nStepList[i] = dao.nStepsOfRecipe(recipeList[i].id);
                 }
 
-                return recipeList;
+                ArrayList<Object> result = new ArrayList<>();
+                result.add(0, recipeList);
+                result.add(1, nIngredientList);
+                result.add(2, nStepList);
+
+                return result;
             }
 
-            protected void onPostExecute(Recipe[] result)
+            protected void onPostExecute(ArrayList<Object> result)
             {
                 super.onPostExecute(result);
 
@@ -108,28 +108,7 @@ public class Model {
 
         int difficultyID = presenter.getDifficultyID();
 
-        ArrayList<String> ingredientNamesList = presenter.getIngredientList();
-        ArrayList<String> stepNamesList = presenter.getStepList();
-
-        ArrayList<Ingredient> ingredientList = new ArrayList<>();
-        ArrayList<StepToFollow> stepList = new ArrayList<>();
-
-        for(int i = 0; i < ingredientNamesList.size(); i++)
-        {
-            ingredientList.add(new Ingredient(ingredientNamesList.get(i)));
-        }
-
-        for(int i = 0; i < stepNamesList.size(); i++)
-        {
-            stepList.add(new StepToFollow(i, recipeName, stepNamesList.get(i)));
-        }
-
-        Recipe currentRecipe = new Recipe(recipeName, valuation, numGuests, difficultyID, recipeTypeID);
-
-        currentRecipe.setIngredientList(ingredientList);
-        currentRecipe.setStepList(stepList);
-
-        recipe = currentRecipe;
+        recipe = new Recipe(recipeName, valuation, numGuests, difficultyID, recipeTypeID);
     }
 
     public void setCurrentRecipe(EditRecipePresenter presenter, Recipe currentRecipe)
@@ -141,28 +120,62 @@ public class Model {
         presenter.setNumGuests(recipe.guests);
         presenter.setValuation(recipe.valuation);
         presenter.setDifficultyID(recipe.difficultyID);
-
-        ArrayList<String> ingredientNamesList = new ArrayList<>();
-        ArrayList<String> stepNamesList = new ArrayList<>();
-
-        ArrayList<Ingredient> ingredientList = recipe.getIngredientList();
-        ArrayList<StepToFollow> stepList = recipe.getStepList();
-
-        for(int i = 0; i < ingredientList.size(); i++)
-        {
-            ingredientNamesList.add(ingredientList.get(i).name);
-        }
-        for(int i = 0; i < stepList.size(); i++)
-        {
-            stepNamesList.add(stepList.get(i).description);
-        }
-
-        presenter.setIngredientList(ingredientNamesList);
-        presenter.setStepList(stepNamesList);
     }
 
-    public void createRecipe(final Recipe recipe, final Response.Listener<Void> response)
+    public void getIngredientListFromRecipe(final Recipe recipe, final Response.Listener<Ingredient[]> response)
     {
+        Log.d("id", recipe.id + "");
+        new AsyncTask<Void, Void, Ingredient[]>() {
+            @Override
+            protected Ingredient[] doInBackground(Void... voids) {
+                Ingredient[] result = dao.loadAllIngredientsFromRecipe(recipe.id);
+
+                Log.d("hola", result.length + "");
+
+                return  result;
+            }
+
+            protected void onPostExecute(Ingredient[] result)
+            {
+                response.onResponse(result);
+            }
+        }.execute();
+    }
+
+    public void getStepListFromRecipe(final Recipe recipe, final Response.Listener<StepToFollow[]> response)
+    {
+        new AsyncTask<Void, Void, StepToFollow[]>() {
+            @Override
+            protected StepToFollow[] doInBackground(Void... voids) {
+                return dao.loadAllStepToFollowFromRecipe(recipe.id);
+            }
+
+            protected void onPostExecute(StepToFollow[] result)
+            {
+                response.onResponse(result);
+            }
+        }.execute();
+    }
+
+    public void createRecipe(final Recipe recipe, ArrayList<String> ingredientNameList, ArrayList<String> stepNameList, final Response.Listener<Void> response)
+    {
+        final Ingredient[] ingredients = new Ingredient[ingredientNameList.size()];
+        final StepToFollow[] steps = new StepToFollow[stepNameList.size()];
+        final RecipeIngredients[] recipeIngredients = new RecipeIngredients[ingredientNameList.size()];
+
+        for(int i = 0; i < ingredients.length; i++)
+        {
+            ingredients[i] = new Ingredient(ingredientNameList.get(i));
+        }
+        for(int i = 0; i < steps.length; i++)
+        {
+            steps[i] = new StepToFollow(i, stepNameList.get(i));
+        }
+        for(int i = 0; i < recipeIngredients.length; i++)
+        {
+            recipeIngredients[i] = new RecipeIngredients();
+        }
+
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... voids) {
@@ -171,38 +184,31 @@ public class Model {
 
             protected void onPostExecute(Integer rows)
             {
-                if(rows == 0) insertRecipe(recipe, response);
-                else updateRecipe(recipe, response);
+                if(rows == 0) insertRecipe(recipe, ingredients, steps, recipeIngredients, response);
+                else updateRecipe(recipe, ingredients, steps, recipeIngredients, response);
             }
         }.execute();
     }
 
-    public void insertRecipe(final Recipe recipe, final Response.Listener<Void> response)
+    public void insertRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                dao.insertRecipe(recipe);
+                recipe.id = (int) dao.insertRecipe(recipe);
 
-                Ingredient[] ingredients = new Ingredient[recipe.getIngredientList().size()];
-                for(int i = 0; i < ingredients.length; i++)
-                {
-                    ingredients[i] = recipe.getIngredientList().get(i);
-                }
+                long[] ingredientsIDs = dao.insertIngredients(ingredients);
 
-                dao.insertIngredients(ingredients);
-
-                StepToFollow[] steps = new StepToFollow[recipe.getStepList().size()];
                 for(int i = 0; i < steps.length; i++)
                 {
-                    steps[i] = recipe.getStepList().get(i);
+                    steps[i].recipeID = recipe.id;
                 }
                 dao.insertSteps(steps);
 
-                RecipeIngredients[] recipeIngredients = new RecipeIngredients[ingredients.length];
                 for(int i = 0; i < recipeIngredients.length; i++)
                 {
-                    recipeIngredients[i] = new RecipeIngredients(recipe.name, ingredients[i].name);
+                    recipeIngredients[i].recipeID = recipe.id;
+                    recipeIngredients[i].ingredientID = (int) ingredientsIDs[i];
                 }
                 dao.insertRecipeIngredients(recipeIngredients);
 
@@ -218,41 +224,34 @@ public class Model {
         }.execute();
     }
 
-    public void updateRecipe(final Recipe recipe, final Response.Listener<Void> response)
+    public void updateRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
 
-                Ingredient[] ingredients = dao.loadAllIngredientsFromRecipe(recipe.name);
-                StepToFollow[] steps = dao.loadAllStepToFollowFromRecipe(recipe.name);
-                RecipeIngredients[] recipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.name);
+                Ingredient[] oldIngredients = dao.loadAllIngredientsFromRecipe(recipe.id);
+                StepToFollow[] oldSteps = dao.loadAllStepToFollowFromRecipe(recipe.id);
+                RecipeIngredients[] oldRecipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.id);
 
-                dao.deleteRecipeIngredients(recipeIngredients);
-                dao.deleteSteps(steps);
-                dao.deleteIngredients(ingredients);
+                dao.deleteRecipeIngredients(oldRecipeIngredients);
+                dao.deleteSteps(oldSteps);
+                dao.deleteIngredients(oldIngredients);
 
                 dao.updateRecipe(recipe);
 
-                ingredients = new Ingredient[recipe.getIngredientList().size()];
-                for(int i = 0; i < ingredients.length; i++)
-                {
-                    ingredients[i] = recipe.getIngredientList().get(i);
-                }
+                long[] ingredientIDs = dao.insertIngredients(ingredients);
 
-                dao.insertIngredients(ingredients);
-
-                steps = new StepToFollow[recipe.getStepList().size()];
                 for(int i = 0; i < steps.length; i++)
                 {
-                    steps[i] = recipe.getStepList().get(i);
+                    steps[i].recipeID = recipe.id;
                 }
                 dao.insertSteps(steps);
 
-                recipeIngredients = new RecipeIngredients[ingredients.length];
                 for(int i = 0; i < recipeIngredients.length; i++)
                 {
-                    recipeIngredients[i] = new RecipeIngredients(recipe.name, ingredients[i].name);
+                    recipeIngredients[i].recipeID = recipe.id;
+                    recipeIngredients[i].ingredientID = (int) ingredientIDs[i];
                 }
                 dao.insertRecipeIngredients(recipeIngredients);
 
@@ -273,27 +272,13 @@ public class Model {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Ingredient[] ingredients = new Ingredient[recipe.getIngredientList().size()];
-                for(int i = 0; i < ingredients.length; i++)
-                {
-                    ingredients[i] = recipe.getIngredientList().get(i);
-                }
+                Ingredient[] oldIngredients = dao.loadAllIngredientsFromRecipe(recipe.id);
+                StepToFollow[] oldSteps = dao.loadAllStepToFollowFromRecipe(recipe.id);
+                RecipeIngredients[] oldRecipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.id);
 
-                StepToFollow[] steps = new StepToFollow[recipe.getStepList().size()];
-                for(int i = 0; i < steps.length; i++)
-                {
-                    steps[i] = recipe.getStepList().get(i);
-                }
-
-                RecipeIngredients[] recipeIngredients = new RecipeIngredients[ingredients.length];
-                for(int i = 0; i < recipeIngredients.length; i++)
-                {
-                    recipeIngredients[i] = new RecipeIngredients(recipe.name, ingredients[i].name);
-                }
-
-                dao.deleteRecipeIngredients(recipeIngredients);
-                dao.deleteSteps(steps);
-                dao.deleteIngredients(ingredients);
+                dao.deleteRecipeIngredients(oldRecipeIngredients);
+                dao.deleteSteps(oldSteps);
+                dao.deleteIngredients(oldIngredients);
                 dao.deleteRecipe(recipe);
 
                 return null;

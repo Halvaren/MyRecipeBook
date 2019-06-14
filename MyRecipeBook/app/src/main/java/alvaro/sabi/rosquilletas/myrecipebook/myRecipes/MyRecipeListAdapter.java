@@ -24,7 +24,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
     private MyRecipesListActivity view;
     private Context context;
-    private ArrayList<Recipe> myRecipesList;
+    private ArrayList<RecipeListItem> myRecipesList;
 
     private String recipeTypeName;
 
@@ -54,7 +54,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final Recipe recipe = (Recipe) getItem(position);
+        final RecipeListItem recipeItem = (RecipeListItem) getItem(position);
 
         convertView = LayoutInflater.from(context).inflate(R.layout.my_recipe_list_view_adapter, null);
 
@@ -67,14 +67,14 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
         RatingBar recipeRatingBar = convertView.findViewById(R.id.recipeRatingBar);
 
-        recipeNameText.setText(recipe.name);
+        recipeNameText.setText(recipeItem.recipe.name);
         recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipeTypeName);
-        nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipe.getIngredientList().size());
-        nStepsText.setText(NUM_STEPS_BASE_TEXT + recipe.getStepList().size());
-        nGuestsText.setText(NUM_GUESTS_BASE_TEXT + recipe.guests);
-        difficultyText.setText(DIFFICULTY_BASE_TEXT + view.getDifficultyName(recipe.difficultyID));
+        nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipeItem.nIngredients);
+        nStepsText.setText(NUM_STEPS_BASE_TEXT + recipeItem.nSteps);
+        nGuestsText.setText(NUM_GUESTS_BASE_TEXT + recipeItem.recipe.guests);
+        difficultyText.setText(DIFFICULTY_BASE_TEXT + view.getDifficultyName(recipeItem.recipe.difficultyID));
 
-        recipeRatingBar.setRating(recipe.valuation);
+        recipeRatingBar.setRating(recipeItem.recipe.valuation);
 
         Button deleteButton = convertView.findViewById(R.id.deleteButton);
         Button editButton = convertView.findViewById(R.id.editButton);
@@ -84,45 +84,51 @@ public class MyRecipeListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteRecipe(recipe);
+                deleteRecipe(recipeItem);
             }
         });
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editRecipe(recipe);
+                editRecipe(recipeItem.recipe);
             }
         });
 
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createShoppingList(recipe);
+                createShoppingList(recipeItem.recipe);
             }
         });
 
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewRecipe(recipe);
+                viewRecipe(recipeItem.recipe);
             }
         });
 
         return convertView;
     }
 
-    public void setMyRecipesList(ArrayList<Recipe> list)
+    public void setMyRecipesList(Recipe[] recipes, Integer[] ingredients, Integer[] steps)
     {
-        myRecipesList = list;
+        ArrayList<RecipeListItem> newList = new ArrayList<>();
+        for(int i = 0; i < recipes.length; i++)
+        {
+            newList.add(new RecipeListItem(recipes[i], ingredients[i], steps[i]));
+        }
+
+        myRecipesList = newList;
 
         notifyDataSetChanged();
     }
 
-    private void deleteRecipe(Recipe recipe)
+    private void deleteRecipe(RecipeListItem recipeItem)
     {
-        view.deleteRecipe(recipe);
-        myRecipesList.remove(recipe);
+        view.deleteRecipe(recipeItem.recipe);
+        myRecipesList.remove(recipeItem);
     }
 
     private void editRecipe(Recipe recipe)
@@ -138,5 +144,19 @@ public class MyRecipeListAdapter extends BaseAdapter {
     private void viewRecipe(Recipe recipe)
     {
         view.showRecipe(recipe);
+    }
+
+    private class RecipeListItem
+    {
+        Recipe recipe;
+        int nIngredients;
+        int nSteps;
+
+        public RecipeListItem(Recipe recipe, int nIngredients, int nSteps)
+        {
+            this.recipe = recipe;
+            this.nIngredients = nIngredients;
+            this.nSteps = nSteps;
+        }
     }
 }

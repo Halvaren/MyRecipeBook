@@ -4,12 +4,12 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName =  "RecipeType")
+//@Entity(tableName =  "RecipeType")
 public class RecipeType {
-    public RecipeType() {}
+    /*public RecipeType() {}
 
-    @PrimaryKey @NonNull public int ID;
-    @NonNull public String name;
+    //@PrimaryKey @NonNull public int ID;
+    //@NonNull public String name;
 
     public String toString() {return name;}
 
@@ -17,5 +17,5 @@ public class RecipeType {
     {
         this.ID = ID;
         this.name = typeName;
-    }
+    }*/
 }

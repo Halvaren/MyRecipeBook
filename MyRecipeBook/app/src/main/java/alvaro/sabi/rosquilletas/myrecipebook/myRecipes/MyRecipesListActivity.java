@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,8 +56,8 @@ public class MyRecipesListActivity extends AppCompatActivity {
         presenter.requestRecipeList(recipeType);
     }
 
-    public void setRecipeList(Recipe[] recipeList) {
-        ((MyRecipeListAdapter) myRecipesListView.getAdapter()).setMyRecipesList(new ArrayList<>(Arrays.asList(recipeList)));
+    public void setRecipeList(Recipe[] recipeList, Integer[] ingredients, Integer[] steps) {
+        ((MyRecipeListAdapter) myRecipesListView.getAdapter()).setMyRecipesList(recipeList, ingredients, steps);
     }
 
     public void editRecipe(Recipe recipe) {
