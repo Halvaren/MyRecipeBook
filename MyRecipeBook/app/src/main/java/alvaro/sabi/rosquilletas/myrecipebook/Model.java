@@ -190,6 +190,9 @@ public class Model {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+
+                Log.d("Inserting", " ");
+
                 recipe.id = dao.lastID() + 1;
                 dao.insertRecipe(recipe);
 
@@ -226,6 +229,8 @@ public class Model {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+
+                Log.d("Updating", " ");
 
                 for(int i = 0; i < ingredients.length; i++)
                 {

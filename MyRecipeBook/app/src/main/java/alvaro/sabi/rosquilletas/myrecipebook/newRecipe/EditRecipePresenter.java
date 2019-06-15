@@ -99,10 +99,4 @@ public class EditRecipePresenter {
     public int getNumGuests() { return view.getNumGuests(); }
     public float getValuation() { return view.getValuation(); }
     public int getDifficultyID() { return view.getDifficultyID(); }
-
-    public void setRecipeName(String value) { view.setRecipeName(value); }
-    public void setRecipeTypeID(int value) { view.setRecipeTypeID(value); }
-    public void setNumGuests(int value) { view.setNumGuests(value); }
-    public void setValuation(float value) { view.setValuation(value); }
-    public void setDifficultyID(int value) { view.setDifficultyID(value); }
 }

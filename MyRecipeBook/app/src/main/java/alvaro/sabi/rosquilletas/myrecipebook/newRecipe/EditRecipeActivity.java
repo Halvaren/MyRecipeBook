@@ -52,6 +52,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_recipe_activity);
 
+        currentRecipeID = -1;
+
         presenter = new EditRecipePresenter(this, this);
 
         recipeName = findViewById(R.id.editRecipeNameField);
@@ -103,6 +105,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(savedInstanceState != null)
         {
             Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
+            currentRecipeID = savedInstanceState.getInt("CurrentRecipeID");
             setRecipe(recipe);
 
             setIngredientList(savedInstanceState.getStringArrayList("IngredientList"));
@@ -133,7 +136,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     {
         super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe());
+        Recipe recipe = presenter.getCurrentRecipe();
+
+        savedInstanceState.putParcelable("CurrentRecipe", recipe);
+        savedInstanceState.putInt("CurrentRecipeID", currentRecipeID);
         savedInstanceState.putStringArrayList("IngredientList", getIngredientList());
         savedInstanceState.putStringArrayList("StepList", getStepList());
     }
