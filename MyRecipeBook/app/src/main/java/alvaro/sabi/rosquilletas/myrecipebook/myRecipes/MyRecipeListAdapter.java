@@ -78,7 +78,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
         Button deleteButton = convertView.findViewById(R.id.deleteButton);
         Button editButton = convertView.findViewById(R.id.editButton);
-        Button shoppingListButton = convertView.findViewById(R.id.shoppingListButton);
+        Button shoppingListButton = convertView.findViewById(R.id.youtubeButton);
         Button viewButton = convertView.findViewById(R.id.viewButton);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +98,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createShoppingList(recipeItem.recipe);
+                searchOnYoutube(recipeItem.recipe);
             }
         });
 
@@ -139,9 +139,9 @@ public class MyRecipeListAdapter extends BaseAdapter {
         view.editRecipe(recipe);
     }
 
-    private void createShoppingList(Recipe recipe)
+    private void searchOnYoutube(Recipe recipe)
     {
-        view.createShoppingList(recipe);
+        view.searchOnYoutube(recipe);
     }
 
     private void viewRecipe(Recipe recipe)

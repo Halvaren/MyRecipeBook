@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/shoppingListButton"
+                    android:id="@+id/youtubeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginTop="2dp"
-                    android:text="Shopping List"
+                    android:text="Search on YouTube"
                     app:layout_constraintEnd_toEndOf="@+id/editButton"
                     app:layout_constraintTop_toBottomOf="@+id/editButton" />
 
@@ -121,7 +121,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:text="Edit"
-        app:layout_constraintBottom_toTopOf="@+id/shoppingListButton"
+        app:layout_constraintBottom_toTopOf="@+id/youtubeButton"
         app:layout_constraintEnd_toEndOf="@+id/deleteButton"
         app:layout_constraintTop_toBottomOf="@+id/deleteButton" />
 
@@ -133,7 +133,7 @@
         android:layout_marginBottom="8dp"
         android:text="See it in detail"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/shoppingListButton"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingListButton"
+        app:layout_constraintEnd_toEndOf="@+id/youtubeButton"
+        app:layout_constraintTop_toBottomOf="@+id/youtubeButton"
         app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

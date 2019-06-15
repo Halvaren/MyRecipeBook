@@ -6,17 +6,15 @@
     android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/shoppingListButton"
+                    android:id="@+id/youtubeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="Shopping List"
+                    android:text="Search on YouTube"
                     app:layout_constraintEnd_toStartOf="@+id/viewButton"
                     app:layout_constraintStart_toEndOf="@+id/editButton"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintTop_toBottomOf="@+id/nIngredientsText" />
 
                 <TextView
@@ -147,7 +145,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Edit"
-        app:layout_constraintEnd_toStartOf="@+id/shoppingListButton"
+        app:layout_constraintEnd_toStartOf="@+id/youtubeButton"
         app:layout_constraintStart_toEndOf="@+id/deleteButton"
         app:layout_constraintTop_toBottomOf="@+id/nIngredientsText" />
 
@@ -162,6 +160,6 @@
         android:layout_marginRight="8dp"
         android:text="See it in detail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/shoppingListButton"
+        app:layout_constraintStart_toEndOf="@+id/youtubeButton"
         app:layout_constraintTop_toBottomOf="@+id/nIngredientsText" />
 </android.support.constraint.ConstraintLayout>

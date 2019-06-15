@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.google.android.youtube.player.YouTubeIntents;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -72,7 +74,12 @@ public class MyRecipesListActivity extends AppCompatActivity {
         presenter.deleteRecipe(recipe);
     }
 
-    public void createShoppingList(Recipe recipe) {
+    public void searchOnYoutube(Recipe recipe) {
+        if(YouTubeIntents.canResolveSearchIntent(this))
+        {
+            Intent intent = YouTubeIntents.createSearchIntent(this, recipe.name + " recipe");
+            startActivity(intent);
+        }
     }
 
     public void showRecipe(Recipe recipe) {
