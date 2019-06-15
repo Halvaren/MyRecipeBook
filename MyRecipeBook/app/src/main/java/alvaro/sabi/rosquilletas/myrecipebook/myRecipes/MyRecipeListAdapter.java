@@ -127,8 +127,11 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
     private void deleteRecipe(RecipeListItem recipeItem)
     {
-        view.deleteRecipe(recipeItem.recipe);
+        Recipe recipe = recipeItem.recipe;
+        view.deleteRecipe(recipe);
         myRecipesList.remove(recipeItem);
+
+        notifyDataSetChanged();
     }
 
     private void editRecipe(Recipe recipe)

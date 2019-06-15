@@ -40,6 +40,7 @@ public class MyRecipesListPresenter
             @Override
             public void onResponse(Void response) {
                 //Progress bar
+                //view.updateRecipeList();
             }
         });
     }

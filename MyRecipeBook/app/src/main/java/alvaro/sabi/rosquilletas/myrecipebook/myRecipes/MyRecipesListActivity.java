@@ -67,8 +67,8 @@ public class MyRecipesListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void deleteRecipe(Recipe recipe) {
-
+    public void deleteRecipe(Recipe recipe)
+    {
         presenter.deleteRecipe(recipe);
     }
 

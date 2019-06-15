@@ -180,18 +180,8 @@ public class Model {
             recipeIngredients[i] = new RecipeIngredients();
         }
 
-        new AsyncTask<Void, Void, Integer>() {
-            @Override
-            protected Integer doInBackground(Void... voids) {
-                return dao.checkRecipeExists(recipe.id);
-            }
-
-            protected void onPostExecute(Integer rows)
-            {
-                if(rows == 0) insertRecipe(recipe, ingredients, steps, recipeIngredients, response);
-                else updateRecipe(recipe, ingredients, steps, recipeIngredients, response);
-            }
-        }.execute();
+        if(recipe.id == -1) insertRecipe(recipe, ingredients, steps, recipeIngredients, response);
+        else updateRecipe(recipe, ingredients, steps, recipeIngredients, response);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -200,7 +190,8 @@ public class Model {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                recipe.id = (int) dao.insertRecipe(recipe);
+                recipe.id = dao.lastID() + 1;
+                dao.insertRecipe(recipe);
 
                 long[] ingredientsIDs = dao.insertIngredients(ingredients);
 

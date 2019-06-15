@@ -50,8 +50,8 @@ public interface RecipeDao {
             "WHERE recipeID = :recipeID")
     void updateRecipeIngredient(int recipeID, int ingredientID);
 
-    @Query("SELECT count(*) FROM Recipes WHERE id = :recipeID")
-    int checkRecipeExists(int recipeID);
+    @Query("SELECT MAX(id) FROM Recipes")
+    int lastID();
 
     @Query("SELECT count(*) FROM Ingredients WHERE name = :ingredientName")
     int checkIngredientExists(String ingredientName);
