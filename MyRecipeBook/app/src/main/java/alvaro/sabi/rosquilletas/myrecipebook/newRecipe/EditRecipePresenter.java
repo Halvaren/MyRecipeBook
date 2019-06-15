@@ -30,10 +30,17 @@ public class EditRecipePresenter {
 
     public String[] getDifficultyNames() { return model.getDifficultyNames(); }
 
+    public void getRecipeByID(int currentRecipeID) { model.getRecipeByID(currentRecipeID, new Response.Listener<Recipe>() {
+        @Override
+        public void onResponse(Recipe response) {
+            setRecipe(response);
+        }
+    }); }
+
     public Recipe getCurrentRecipe() { return model.getCurrentRecipe(this); }
 
-    public void getIngredientListFromRecipe(Recipe recipe) {
-        model.getIngredientListFromRecipe(recipe, new Response.Listener<Ingredient[]>() {
+    public void getIngredientListFromRecipe(int currentRecipeID) {
+        model.getIngredientListFromRecipe(currentRecipeID, new Response.Listener<Ingredient[]>() {
             @Override
             public void onResponse(Ingredient[] response) {
                 setIngredientListFromRecipe(response);
@@ -41,8 +48,8 @@ public class EditRecipePresenter {
         });
     }
 
-    public void getStepListFromRecipe(Recipe recipe) {
-        model.getStepListFromRecipe(recipe, new Response.Listener<StepToFollow[]>() {
+    public void getStepListFromRecipe(int currentRecipeID) {
+        model.getStepListFromRecipe(currentRecipeID, new Response.Listener<StepToFollow[]>() {
             @Override
             public void onResponse(StepToFollow[] response) {
                 setStepListFromRecipe(response);
@@ -50,7 +57,10 @@ public class EditRecipePresenter {
         });
     }
 
-    public void setCurrentRecipe(Recipe currentRecipe) { model.setCurrentRecipe(this, currentRecipe); }
+    public void setRecipe(Recipe result)
+    {
+        view.setRecipe(result);
+    }
 
     public void setIngredientListFromRecipe(Ingredient[] result)
     {

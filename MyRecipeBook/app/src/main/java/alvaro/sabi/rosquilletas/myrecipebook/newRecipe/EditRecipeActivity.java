@@ -45,6 +45,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     private IngredientStepListAdapter ingredientListAdapter;
     private IngredientStepListAdapter stepListAdapter;
 
+    private int currentRecipeID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +103,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(savedInstanceState != null)
         {
             Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
-            presenter.setCurrentRecipe(recipe);
+            setRecipe(recipe);
 
             setIngredientList(savedInstanceState.getStringArrayList("IngredientList"));
             setStepList(savedInstanceState.getStringArrayList("StepList"));
@@ -109,12 +111,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         else
         {
             Intent intent = getIntent();
-            Recipe currentRecipe = intent.getParcelableExtra("EditRecipe");
-            if(currentRecipe != null)
+            currentRecipeID = intent.getIntExtra("EditRecipeID", -1);
+            if(currentRecipeID != -1)
             {
-                presenter.setCurrentRecipe(currentRecipe);
-                presenter.getIngredientListFromRecipe(currentRecipe);
-                presenter.getStepListFromRecipe(currentRecipe);
+                presenter.getRecipeByID(currentRecipeID);
+                presenter.getIngredientListFromRecipe(currentRecipeID);
+                presenter.getStepListFromRecipe(currentRecipeID);
             }
             else
             {
@@ -134,6 +136,15 @@ public class EditRecipeActivity extends AppCompatActivity {
         savedInstanceState.putParcelable("CurrentRecipe", presenter.getCurrentRecipe());
         savedInstanceState.putStringArrayList("IngredientList", getIngredientList());
         savedInstanceState.putStringArrayList("StepList", getStepList());
+    }
+
+    public void setRecipe(Recipe recipe)
+    {
+        setRecipeName(recipe.name);
+        setRecipeTypeID(recipe.typeID);
+        setNumGuests(recipe.guests);
+        setValuation(recipe.valuation);
+        setDifficultyID(recipe.difficultyID);
     }
 
     public void addNewIngredient(View view)
@@ -175,6 +186,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(checkFilledFields())
         {
             Recipe recipe = presenter.getCurrentRecipe();
+            recipe.id = currentRecipeID;
             presenter.createRecipe(recipe, getIngredientList(), getStepList());
 
             Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);

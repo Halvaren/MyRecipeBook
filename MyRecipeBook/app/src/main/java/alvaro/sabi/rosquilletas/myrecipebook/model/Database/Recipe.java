@@ -1,19 +1,15 @@
 package alvaro.sabi.rosquilletas.myrecipebook.model.Database;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Recipes", indices = @Index(value = {"name"}, unique = true))
-//@Entity(foreignKeys =  @ForeignKey(entity = RecipeType.class, parentColumns = "name", childColumns = "type"))
+@Entity(tableName = "Recipes")
 public class Recipe implements Parcelable {
     public Recipe () {}
     @PrimaryKey(autoGenerate = true)

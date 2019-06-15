@@ -111,28 +111,30 @@ public class Model {
         recipe = new Recipe(recipeName, valuation, numGuests, difficultyID, recipeTypeID);
     }
 
-    public void setCurrentRecipe(EditRecipePresenter presenter, Recipe currentRecipe)
+    @SuppressLint("StaticFieldLeak")
+    public void getRecipeByID(final int recipeID, final Response.Listener<Recipe> response)
     {
-        recipe = currentRecipe;
+        new AsyncTask<Void, Void, Recipe>()
+        {
+            @Override
+            protected Recipe doInBackground(Void... voids) {
+                return dao.loadRecipeByID(recipeID);
+            }
 
-        presenter.setRecipeName(recipe.name);
-        presenter.setRecipeTypeID(recipe.typeID);
-        presenter.setNumGuests(recipe.guests);
-        presenter.setValuation(recipe.valuation);
-        presenter.setDifficultyID(recipe.difficultyID);
+            protected void onPostExecute(Recipe result)
+            {
+                response.onResponse(result);
+            }
+        }.execute();
     }
 
-    public void getIngredientListFromRecipe(final Recipe recipe, final Response.Listener<Ingredient[]> response)
+    @SuppressLint("StaticFieldLeak")
+    public void getIngredientListFromRecipe(final int recipeID, final Response.Listener<Ingredient[]> response)
     {
-        Log.d("id", recipe.id + "");
         new AsyncTask<Void, Void, Ingredient[]>() {
             @Override
             protected Ingredient[] doInBackground(Void... voids) {
-                Ingredient[] result = dao.loadAllIngredientsFromRecipe(recipe.id);
-
-                Log.d("hola", result.length + "");
-
-                return  result;
+                return  dao.loadAllIngredientsFromRecipe(recipeID);
             }
 
             protected void onPostExecute(Ingredient[] result)
@@ -142,12 +144,13 @@ public class Model {
         }.execute();
     }
 
-    public void getStepListFromRecipe(final Recipe recipe, final Response.Listener<StepToFollow[]> response)
+    @SuppressLint("StaticFieldLeak")
+    public void getStepListFromRecipe(final int recipeID, final Response.Listener<StepToFollow[]> response)
     {
         new AsyncTask<Void, Void, StepToFollow[]>() {
             @Override
             protected StepToFollow[] doInBackground(Void... voids) {
-                return dao.loadAllStepToFollowFromRecipe(recipe.id);
+                return dao.loadAllStepToFollowFromRecipe(recipeID);
             }
 
             protected void onPostExecute(StepToFollow[] result)
@@ -157,6 +160,7 @@ public class Model {
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void createRecipe(final Recipe recipe, ArrayList<String> ingredientNameList, ArrayList<String> stepNameList, final Response.Listener<Void> response)
     {
         final Ingredient[] ingredients = new Ingredient[ingredientNameList.size()];
@@ -179,7 +183,7 @@ public class Model {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... voids) {
-                return dao.checkRecipeExists(recipe.name);
+                return dao.checkRecipeExists(recipe.id);
             }
 
             protected void onPostExecute(Integer rows)
@@ -190,7 +194,8 @@ public class Model {
         }.execute();
     }
 
-    public void insertRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
+    @SuppressLint("StaticFieldLeak")
+    private void insertRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -224,36 +229,49 @@ public class Model {
         }.execute();
     }
 
-    public void updateRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
+    @SuppressLint("StaticFieldLeak")
+    private void updateRecipe(final Recipe recipe, final Ingredient[] ingredients, final StepToFollow[] steps, final RecipeIngredients[] recipeIngredients, final Response.Listener<Void> response)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
 
-                Ingredient[] oldIngredients = dao.loadAllIngredientsFromRecipe(recipe.id);
-                StepToFollow[] oldSteps = dao.loadAllStepToFollowFromRecipe(recipe.id);
-                RecipeIngredients[] oldRecipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.id);
+                for(int i = 0; i < ingredients.length; i++)
+                {
+                    if(dao.checkIngredientExists(ingredients[i].name) == 0)
+                    {
+                        dao.insertIngredient(ingredients[i]);
+                    }
+                }
 
-                dao.deleteRecipeIngredients(oldRecipeIngredients);
-                dao.deleteSteps(oldSteps);
-                dao.deleteIngredients(oldIngredients);
+                int nCurrentRecipeIngredients = dao.nIngredientsOfRecipe(recipe.id);
+                RecipeIngredients[] currentRecipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.id);
 
-                dao.updateRecipe(recipe);
+                for(int i = 0; i < nCurrentRecipeIngredients; i++)
+                {
+                    dao.deleteRecipeIngredient(recipe.id, currentRecipeIngredients[i].ingredientID);
+                }
 
-                long[] ingredientIDs = dao.insertIngredients(ingredients);
+                for(int i = 0; i < ingredients.length; i++)
+                {
+                    dao.insertRecipeIngredients(new RecipeIngredients(recipe.id, dao.getIngredientIDFromName(ingredients[i].name)));
+                }
+
+                int nCurrentSteps = dao.nStepsOfRecipe(recipe.id);
+                StepToFollow[] currentSteps = dao.loadAllStepToFollowFromRecipe(recipe.id);
+
+                for(int i = 0; i < nCurrentSteps; i++)
+                {
+                    dao.deleteStep(recipe.id, currentSteps[i].stepNum);
+                }
 
                 for(int i = 0; i < steps.length; i++)
                 {
                     steps[i].recipeID = recipe.id;
+                    dao.insertStep(steps[i]);
                 }
-                dao.insertSteps(steps);
 
-                for(int i = 0; i < recipeIngredients.length; i++)
-                {
-                    recipeIngredients[i].recipeID = recipe.id;
-                    recipeIngredients[i].ingredientID = (int) ingredientIDs[i];
-                }
-                dao.insertRecipeIngredients(recipeIngredients);
+                dao.updateRecipe(recipe.id, recipe.name, recipe.typeID, recipe.guests, recipe.valuation, recipe.difficultyID);
 
                 return null;
             }
@@ -267,19 +285,13 @@ public class Model {
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void deleteRecipe(final Recipe recipe, final Response.Listener<Void> response)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Ingredient[] oldIngredients = dao.loadAllIngredientsFromRecipe(recipe.id);
-                StepToFollow[] oldSteps = dao.loadAllStepToFollowFromRecipe(recipe.id);
-                RecipeIngredients[] oldRecipeIngredients = dao.loadAllRecipeIngredientsFromRecipe(recipe.id);
-
-                dao.deleteRecipeIngredients(oldRecipeIngredients);
-                dao.deleteSteps(oldSteps);
-                dao.deleteIngredients(oldIngredients);
-                dao.deleteRecipe(recipe);
+                dao.deleteRecipe(recipe.id);
 
                 return null;
             }
