@@ -13,16 +13,18 @@ import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.MainActivity;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import alvaro.sabi.rosquilletas.myrecipebook.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.IngredientStepListAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditRecipeActivity extends AppCompatActivity {
+public class EditRecipeActivity extends AppCompatActivity implements ToastMessages {
 
     private final String NUMBER_GUESTS_BASE_TEXT = "Number of guests: ";
 
@@ -194,24 +196,32 @@ public class EditRecipeActivity extends AppCompatActivity {
             Recipe recipe = presenter.getCurrentRecipe();
             recipe.id = currentRecipeID;
             presenter.createRecipe(recipe, getIngredientList(), getStepList());
-
-            Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
-            startActivity(intent);
         }
+    }
+
+    public void exitFromActivity()
+    {
+        showToast(recipeSaved);
+
+        Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     public boolean checkFilledFields()
     {
         if(recipeName.getText().toString().length() == 0)
         {
+            showToast(requiresRecipeName);
             return false;
         }
         else if(((IngredientStepListAdapter) ingredientList.getAdapter()).checkFilledIngredientsSteps())
         {
+            showToast(requiresIngredients);
             return false;
         }
         else if(((IngredientStepListAdapter) stepList.getAdapter()).checkFilledIngredientsSteps())
         {
+            showToast(requiresSteps);
             return false;
         }
         return true;
@@ -254,5 +264,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
     public void setStepList(ArrayList<String> value) {
         stepListAdapter.setIngredientStepList(value);
+    }
+
+    public void showToast(String message)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -89,7 +89,7 @@ public class EditRecipePresenter {
         model.createRecipe(recipe, ingredients, steps, new Response.Listener<Void>() {
             @Override
             public void onResponse(Void response) {
-                //Progress bar
+                exitFromActivity();
             }
         });
     }
@@ -99,4 +99,9 @@ public class EditRecipePresenter {
     public int getNumGuests() { return view.getNumGuests(); }
     public float getValuation() { return view.getValuation(); }
     public int getDifficultyID() { return view.getDifficultyID(); }
+
+    public void exitFromActivity()
+    {
+        view.exitFromActivity();
+    }
 }

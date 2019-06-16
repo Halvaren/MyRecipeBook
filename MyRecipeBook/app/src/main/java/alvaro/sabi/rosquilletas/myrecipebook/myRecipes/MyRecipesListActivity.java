@@ -2,22 +2,19 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeIntents;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import alvaro.sabi.rosquilletas.myrecipebook.R;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
+import alvaro.sabi.rosquilletas.myrecipebook.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MyRecipesListActivity extends AppCompatActivity {
+public class MyRecipesListActivity extends AppCompatActivity implements ToastMessages {
 
     private ListView myRecipesListView;
 
@@ -60,6 +57,8 @@ public class MyRecipesListActivity extends AppCompatActivity {
 
     public void setRecipeList(Recipe[] recipeList, Integer[] ingredients, Integer[] steps) {
         ((MyRecipeListAdapter) myRecipesListView.getAdapter()).setMyRecipesList(recipeList, ingredients, steps);
+
+        if(recipeList.length == 0) showToast(emptyRecipeList);
     }
 
     public void editRecipe(Recipe recipe) {
@@ -80,6 +79,10 @@ public class MyRecipesListActivity extends AppCompatActivity {
             Intent intent = YouTubeIntents.createSearchIntent(this, recipe.name + " recipe");
             startActivity(intent);
         }
+        else
+        {
+            showToast(youtubeVersion);
+        }
     }
 
     public void showRecipe(Recipe recipe) {
@@ -87,5 +90,10 @@ public class MyRecipesListActivity extends AppCompatActivity {
         intent.putExtra("Recipe", recipe);
 
         startActivity(intent);
+    }
+
+    public void showToast(String message)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
