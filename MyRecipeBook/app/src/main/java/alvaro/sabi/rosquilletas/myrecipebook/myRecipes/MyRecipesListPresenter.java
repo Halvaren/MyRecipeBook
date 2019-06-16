@@ -32,7 +32,7 @@ public class MyRecipesListPresenter
 
     public void setRecipes(ArrayList<Object> recipeIngredientsSteps)
     {
-        view.setRecipeList((Recipe[]) recipeIngredientsSteps.get(0), (Integer[]) recipeIngredientsSteps.get(1), (Integer[]) recipeIngredientsSteps.get(2));
+        view.setRecipeList((Recipe[]) recipeIngredientsSteps.get(0), (int[]) recipeIngredientsSteps.get(1), (int[]) recipeIngredientsSteps.get(2));
     }
 
     public void deleteRecipe(Recipe recipe) {

@@ -2,13 +2,18 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import alvaro.sabi.rosquilletas.myrecipebook.MainActivity;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RecipeTypesActivity extends AppCompatActivity {
+
+    public final String ACTIVITY_TITLE = "Recipe Types";
 
     private RecipeTypesPresenter presenter;
 
@@ -37,6 +42,16 @@ public class RecipeTypesActivity extends AppCompatActivity {
         {
             getButtonText(i);
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(ACTIVITY_TITLE);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        finish();
+        return true;
     }
 
     public void getButtonText(int id)

@@ -3,6 +3,7 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import alvaro.sabi.rosquilletas.myrecipebook.R;
 import alvaro.sabi.rosquilletas.myrecipebook.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MyRecipesListActivity extends AppCompatActivity implements ToastMessages {
@@ -19,6 +21,10 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     private ListView myRecipesListView;
 
     private MyRecipesListPresenter presenter;
+
+    private Recipe[] recipeList;
+    private int[] ingredients;
+    private int[] steps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,6 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         presenter = new MyRecipesListPresenter(this, this);
 
         Intent intent = getIntent();
-        Log.d("Intent", String.valueOf(intent == null));
         int recipeType = intent.getIntExtra("RecipeType", 0);
 
         String recipeTypeName = getRecipeTypeName(recipeType);
@@ -37,7 +42,38 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         MyRecipeListAdapter adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
         myRecipesListView.setAdapter(adapter);
 
-        requestRecipeList(recipeType);
+        if(savedInstanceState != null)
+        {
+            recipeList = (Recipe[]) savedInstanceState.getParcelableArray("RecipeList");
+            ingredients = savedInstanceState.getIntArray("Ingredients");
+            steps = savedInstanceState.getIntArray("Steps");
+
+            if(recipeList != null && ingredients != null && steps != null)
+            {
+                setRecipeList(recipeList, ingredients, steps);
+            }
+            else requestRecipeList(recipeType);
+        }
+        else requestRecipeList(recipeType);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(recipeTypeName);
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+
+        if(recipeList != null) savedInstanceState.putParcelableArray("RecipeList", recipeList);
+        if(ingredients != null) savedInstanceState.putIntArray("Ingredients", ingredients);
+        if(steps != null) savedInstanceState.putIntArray("Steps", steps);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        finish();
+        return true;
     }
 
     public String getRecipeTypeName(int recipeType)
@@ -55,7 +91,11 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         presenter.requestRecipeList(recipeType);
     }
 
-    public void setRecipeList(Recipe[] recipeList, Integer[] ingredients, Integer[] steps) {
+    public void setRecipeList(Recipe[] recipeList, int[] ingredients, int[] steps) {
+        this.recipeList = recipeList;
+        this.ingredients = ingredients;
+        this.steps = steps;
+
         ((MyRecipeListAdapter) myRecipesListView.getAdapter()).setMyRecipesList(recipeList, ingredients, steps);
 
         if(recipeList.length == 0) showToast(emptyRecipeList);

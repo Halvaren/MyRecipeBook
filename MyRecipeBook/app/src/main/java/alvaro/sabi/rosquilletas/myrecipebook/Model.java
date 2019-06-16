@@ -65,8 +65,8 @@ public class Model {
             @Override
             protected ArrayList<Object> doInBackground(Void... voids) {
                 Recipe[] recipeList = dao.loadAllRecipesOfType(recipeType); //Asegurado que este valor empieza en 0
-                Integer[] nIngredientList = new Integer[recipeList.length];
-                Integer[] nStepList = new Integer[recipeList.length];
+                int[] nIngredientList = new int[recipeList.length];
+                int[] nStepList = new int[recipeList.length];
 
                 for(int i = 0; i < recipeList.length; i++)
                 {

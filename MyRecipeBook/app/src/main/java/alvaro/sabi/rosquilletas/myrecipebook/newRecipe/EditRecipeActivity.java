@@ -3,6 +3,7 @@ package alvaro.sabi.rosquilletas.myrecipebook.newRecipe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,11 +23,15 @@ import alvaro.sabi.rosquilletas.myrecipebook.R;
 import alvaro.sabi.rosquilletas.myrecipebook.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.IngredientStepListAdapter;
+import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.MyRecipesListActivity;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditRecipeActivity extends AppCompatActivity implements ToastMessages {
 
-    private final String NUMBER_GUESTS_BASE_TEXT = "Number of guests: ";
+    public final String NEW_RECIPE_ACTIVITY_TITLE = "New Recipe";
+    public final String EDIT_RECIPE_ACTIVITY_TITLE = "Edit Recipe";
+    public final String NUMBER_GUESTS_BASE_TEXT = "Number of guests: ";
 
     private EditRecipePresenter presenter;
 
@@ -48,6 +53,8 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     private IngredientStepListAdapter stepListAdapter;
 
     private int currentRecipeID;
+
+    private boolean editingRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,8 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
 
         seekBarUpdated();
 
+        editingRecipe = false;
+
         if(savedInstanceState != null)
         {
             Recipe recipe = savedInstanceState.getParcelable("CurrentRecipe");
@@ -112,6 +121,8 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
 
             setIngredientList(savedInstanceState.getStringArrayList("IngredientList"));
             setStepList(savedInstanceState.getStringArrayList("StepList"));
+
+            editingRecipe = savedInstanceState.getBoolean("Editing");
         }
         else
         {
@@ -122,15 +133,19 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
                 presenter.getRecipeByID(currentRecipeID);
                 presenter.getIngredientListFromRecipe(currentRecipeID);
                 presenter.getStepListFromRecipe(currentRecipeID);
+
+                editingRecipe = true;
             }
             else
             {
                 ingredientListAdapter.addIngredientStep("");
                 stepListAdapter.addIngredientStep("");
             }
-
-
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(editingRecipe ? EDIT_RECIPE_ACTIVITY_TITLE : NEW_RECIPE_ACTIVITY_TITLE);
     }
 
     @Override
@@ -144,6 +159,15 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
         savedInstanceState.putInt("CurrentRecipeID", currentRecipeID);
         savedInstanceState.putStringArrayList("IngredientList", getIngredientList());
         savedInstanceState.putStringArrayList("StepList", getStepList());
+        savedInstanceState.putBoolean("Editing", editingRecipe);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        //Primero el Dialog
+        //exitFromActivity();
+        finish();
+        return true;
     }
 
     public void setRecipe(Recipe recipe)
@@ -196,15 +220,24 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
             Recipe recipe = presenter.getCurrentRecipe();
             recipe.id = currentRecipeID;
             presenter.createRecipe(recipe, getIngredientList(), getStepList());
+
+            showToast(recipeSaved);
         }
     }
 
     public void exitFromActivity()
     {
-        showToast(recipeSaved);
-
-        Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
-        startActivity(intent);
+        if(editingRecipe)
+        {
+            Intent intent = new Intent(EditRecipeActivity.this, MyRecipesListActivity.class);
+            intent.putExtra("RecipeType", presenter.getCurrentRecipe().typeID);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent = new Intent(EditRecipeActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public boolean checkFilledFields()

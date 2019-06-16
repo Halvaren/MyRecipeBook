@@ -112,7 +112,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setMyRecipesList(Recipe[] recipes, Integer[] ingredients, Integer[] steps)
+    public void setMyRecipesList(Recipe[] recipes, int[] ingredients, int[] steps)
     {
         ArrayList<RecipeListItem> newList = new ArrayList<>();
         for(int i = 0; i < recipes.length; i++)
