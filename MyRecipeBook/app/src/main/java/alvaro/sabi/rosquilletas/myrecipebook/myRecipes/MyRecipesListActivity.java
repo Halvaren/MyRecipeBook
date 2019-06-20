@@ -187,7 +187,7 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     }
 
     //Método que genera un dialog para comprobar si el usuario quiere borrar una receta o no
-    public void showDialog(Recipe recipe, int i)
+    public void showDeleteRecipeDialog(Recipe recipe, int i)
     {
         DeleteRecipeDialog dialog = new DeleteRecipeDialog(this, recipe, i, this, getRecipeTypeName(recipe.typeID));
         dialog.show(getSupportFragmentManager(), "delete");

@@ -194,11 +194,6 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
 
     //Este método se llama al interactuar con alguno de los elementos de la Action Bar, pero únicamente está activado el botón de Atrás
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        //Primero el Dialog
-        //finish(); //Terminamos la actividad, por lo que volvemos a la anterior actividad
-        //exitFromActivity();
-        //finish();
         showReturnDialog();
         return true;
     }
@@ -241,10 +236,7 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
             //Se le indica al presenter que ya puede crear la receta, es decir, guardarla en la base de datos
             presenter.createRecipe(recipe, getIngredientList(), getStepList());
 
-            //Se le indica al usuario que la receta se va a guardar
-            showToast(recipeSaved);
-            //showToast(recipeSaved);
-            showDialog();
+            showSaveDialog();
         }
 
     }
@@ -363,12 +355,14 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void showDialog()
+    //Método que muestra un dialog de confirmación del usuario a guardar una receta (ya sea nueva o actualizar una ya existente)
+    public void showSaveDialog()
     {
         EditRecipeDialog dialog = new EditRecipeDialog(this);
         dialog.show(getSupportFragmentManager(), "my_dialog");
     }
 
+    //Método que muestra un dialog de confirmación del usuario a salir de la actividad sin guardar la receta
     public void showReturnDialog() {
         ReturnRecipeDialog dialog = new ReturnRecipeDialog(this);
         dialog.show(getSupportFragmentManager(), "my_dialog");

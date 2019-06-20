@@ -15,21 +15,18 @@ import androidx.fragment.app.DialogFragment;
 public class ReturnRecipeDialog extends DialogFragment {
 
     private EditRecipeActivity view;
-    public ReturnRecipeDialog (EditRecipeActivity view) {
+
+    public ReturnRecipeDialog (EditRecipeActivity view)
+    {
         this.view = view;
     }
 
-    //private EditRecipePresenter presenter = new EditRecipePresenter(view, ctx);
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.return_recipe_dialog, null))
-                // Add action buttons
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -41,6 +38,7 @@ public class ReturnRecipeDialog extends DialogFragment {
                         dialog.dismiss();
                     }
                 });
+        
         return builder.create();
     }
 }

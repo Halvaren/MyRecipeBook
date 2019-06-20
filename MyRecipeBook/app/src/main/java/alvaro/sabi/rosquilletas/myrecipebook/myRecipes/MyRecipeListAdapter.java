@@ -143,7 +143,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
     private void showDeleteDialog(RecipeListItem recipeItem, int i)
     {
         Recipe recipe = recipeItem.recipe;
-        view.showDialog(recipe, i);
+        view.showDeleteRecipeDialog(recipe, i);
     }
 
     //Método que es llamada desde la view que se encarga de borrar un elemento determinado de la lista y de notificar el cambio de información

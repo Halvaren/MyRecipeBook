@@ -9,7 +9,7 @@ public interface MyRecipeListInterface {
     void requestRecipeList(int recipeType);
     void setRecipeList(Recipe[] recipeList, int[] ingredients, int[] steps);
     void editRecipe(Recipe recipe);
-    void deleteRecipe(Recipe recipe);
+    void deleteRecipe(Recipe recipe, int i);
     void searchOnYoutube(Recipe recipe);
     void showRecipe(Recipe recipe);
 }
