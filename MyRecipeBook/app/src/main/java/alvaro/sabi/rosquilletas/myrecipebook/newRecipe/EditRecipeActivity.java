@@ -165,8 +165,13 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     {
         //Primero el Dialog
         //exitFromActivity();
-        finish();
+        //finish();
+        showReturnDialog();
         return true;
+    }
+
+    public void onBackPressed() {
+        showReturnDialog();
     }
 
     public void setRecipe(Recipe recipe)
@@ -308,6 +313,11 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     public void showDialog()
     {
         EditRecipeDialog dialog = new EditRecipeDialog(this);
+        dialog.show(getSupportFragmentManager(), "my_dialog");
+    }
+
+    public void showReturnDialog() {
+        ReturnRecipeDialog dialog = new ReturnRecipeDialog(this);
         dialog.show(getSupportFragmentManager(), "my_dialog");
     }
 }
