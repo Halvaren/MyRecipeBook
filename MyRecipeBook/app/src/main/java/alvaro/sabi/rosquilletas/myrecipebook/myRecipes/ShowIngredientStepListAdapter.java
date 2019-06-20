@@ -11,10 +11,14 @@ import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
 
+/*
+    Adapter para las ListViews de ingredientes y pasos de la actividad ShowRecipe
+ */
+
 public class ShowIngredientStepListAdapter extends BaseAdapter {
 
-    ArrayList<String> list;
-    Context context;
+    ArrayList<String> list; //Lista que contiene la información sobre lo que debe mostrar la ListView
+    Context context; //Contexto para poder utilizar una layout personalizada
 
     public ShowIngredientStepListAdapter(Context context)
     {
@@ -40,14 +44,18 @@ public class ShowIngredientStepListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        //Se aplica la layout personalizada a cada elemento de la ListView
         convertView = LayoutInflater.from(context).inflate(R.layout.show_ingredient_step_list_adapter, null);
 
+        //Se obtiene el elemento de la layout que contiene el texto a mostrar
         TextView nameText = convertView.findViewById(R.id.showIngredientStepListAdapterNameText);
+        //Y se modifica su contenido para que muestre la posición más 1 y el texto determinado por la lista de información
         nameText.setText((position + 1) + " - " + getItem(position));
 
         return convertView;
     }
 
+    //Método que asigna una nueva lista de información y que notifica que se ha producido un cambio en dicha información para que actualice la ListView
     public void setList(ArrayList<String> value)
     {
         list = value;

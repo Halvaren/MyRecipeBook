@@ -6,17 +6,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import alvaro.sabi.rosquilletas.myrecipebook.MainActivity;
+import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.RecipeTypesInterface;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RecipeTypesActivity extends AppCompatActivity {
+public class RecipeTypesActivity extends AppCompatActivity implements RecipeTypesInterface {
 
+    //Título de la actividad
     public final String ACTIVITY_TITLE = "Recipe Types";
 
     private RecipeTypesPresenter presenter;
 
+    //Elementos del layout
     private Button appetizerButton;
     private Button starterButton;
     private Button secondCourseButton;
@@ -31,6 +33,7 @@ public class RecipeTypesActivity extends AppCompatActivity {
 
         presenter = new RecipeTypesPresenter(this, this);
 
+        //Se obtienen los elementos del layout
         appetizerButton = findViewById(R.id.appetizerButton);
         starterButton = findViewById(R.id.starterButton);
         secondCourseButton = findViewById(R.id.secondCourseButton);
@@ -38,22 +41,24 @@ public class RecipeTypesActivity extends AppCompatActivity {
         dessertButton = findViewById(R.id.dessertButton);
         drinkButton = findViewById(R.id.drinkButton);
 
+        //Para cada botón se llama al método getButtonText
         for(int i = 0; i < 6; i++)
         {
             getButtonText(i);
         }
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(ACTIVITY_TITLE);
+        actionBar.setDisplayHomeAsUpEnabled(true); //Activamos el botón de Atrás en la barra superior
+        actionBar.setTitle(ACTIVITY_TITLE); //Cambiamos el título por el que se tiene guardado en la constante
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        finish();
+        finish(); //Se vuelve a la actividad anterior
         return true;
     }
 
+    //Método que primeramente pide al presenter el texto para el botón y posteriormente se le asigna al botón en cuestión
     public void getButtonText(int id)
     {
         String text = presenter.getButtonText(id);
@@ -80,7 +85,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         }
     }
 
-    public void OnClickAppetizer(View view)
+    //Método que se llama cuando se pulsa el botón de Appetizer
+    public void onClickAppetizer(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 0);
@@ -88,7 +94,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void OnClickStarter(View view)
+    //Método que se llama cuando se pulsa el botón de Starter
+    public void onClickStarter(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 1);
@@ -96,7 +103,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void OnClickSecondCourse(View view)
+    //Método que se llama cuando se pulsa el botón de Second Source
+    public void onClickSecondCourse(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 2);
@@ -104,8 +112,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    public void OnClickSauce(View view)
+    //Método que se llama cuando se pulsa el botón de Sauce
+    public void onClickSauce(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 3);
@@ -113,7 +121,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void OnClickDessert(View view)
+    //Método que se llama cuando se pulsa el botón de Dessert
+    public void onClickDessert(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 4);
@@ -121,7 +130,8 @@ public class RecipeTypesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void OnClickDrink(View view)
+    //Método que se llama cuando se pulsa el botón de Drink
+    public void onClickDrink(View view)
     {
         Intent intent = new Intent(RecipeTypesActivity.this, MyRecipesListActivity.class);
         intent.putExtra("RecipeType", 5);

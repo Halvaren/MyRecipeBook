@@ -12,6 +12,13 @@ import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.NO_ACTION;
 import static androidx.room.ForeignKey.SET_NULL;
 
+/*
+    Clase que se corresponde con la tabla StepsToFollow de la base de datos
+    La información que contiene un paso a seguir es la siguiente: recipeID (ID de la receta que contiene dicho paso), stepNum (numeración del paso dentro de la receta a la
+    que pertenece) y description (descripción del paso en cuestión).
+    Una vez se elimina una receta, cada fila de un paso a seguir que estuviera relacionado con dicha receta, también se elimina.
+ */
+
 @Entity(tableName =  "StepsToFollow",
         foreignKeys = {@ForeignKey(entity = Recipe.class, parentColumns = "id",
                 childColumns = "recipeID", onDelete = CASCADE)},

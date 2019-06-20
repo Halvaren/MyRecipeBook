@@ -14,19 +14,24 @@ import java.util.ArrayList;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
 
+/*
+    Adapter para la ListView de recetas de la actividad MyRecipeList
+ */
+
 public class MyRecipeListAdapter extends BaseAdapter {
 
+    //Textos base para la mostración de la información de la receta
     private final String RECIPE_TYPE_BASE_TEXT = "Recipe Type: ";
     private final String NUM_INGREDIENTS_BASE_TEXT = "Nº Ingredients: ";
     private final String NUM_STEPS_BASE_TEXT = "Nº Steps: ";
     private final String NUM_GUESTS_BASE_TEXT = "Nº Guests: ";
     private final String DIFFICULTY_BASE_TEXT = "Difficulty: ";
 
-    private MyRecipesListActivity view;
-    private Context context;
-    private ArrayList<RecipeListItem> myRecipesList;
+    private MyRecipesListActivity view; //Referencia a la actividad para poder llamar a métodos de la misma
+    private Context context; //Referencia al contexto de la actividad para poder aplicar la layout personalizada al adapter
+    private ArrayList<RecipeListItem> myRecipesList; //Lista de elementos que se muestran con la ListView
 
-    private String recipeTypeName;
+    private String recipeTypeName; //Nombre del tipo de recetas que se muestran
 
     public MyRecipeListAdapter(MyRecipesListActivity view, Context context, String recipeTypeName)
     {
@@ -56,8 +61,10 @@ public class MyRecipeListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final RecipeListItem recipeItem = (RecipeListItem) getItem(position);
 
+        //Se aplica el layout personalizado al elemento de la ListView
         convertView = LayoutInflater.from(context).inflate(R.layout.my_recipe_list_view_adapter, null);
 
+        //Se obtienen los elementos con información del layout
         TextView recipeNameText = convertView.findViewById(R.id.recipeNameText);
         TextView recipeTypeText = convertView.findViewById(R.id.recipeTypeText);
         TextView nIngredientsText = convertView.findViewById(R.id.nIngredientsText);
@@ -67,6 +74,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
         RatingBar recipeRatingBar = convertView.findViewById(R.id.recipeRatingBar);
 
+        //Se asigna la información del elemento de la lista de RecipeItems a los elementos de la layout
         recipeNameText.setText(recipeItem.recipe.name);
         recipeTypeText.setText(RECIPE_TYPE_BASE_TEXT + recipeTypeName);
         nIngredientsText.setText(NUM_INGREDIENTS_BASE_TEXT + recipeItem.nIngredients);
@@ -76,10 +84,13 @@ public class MyRecipeListAdapter extends BaseAdapter {
 
         recipeRatingBar.setRating(recipeItem.recipe.valuation);
 
+        //Se obtienen los botones del layout
         Button deleteButton = convertView.findViewById(R.id.deleteButton);
         Button editButton = convertView.findViewById(R.id.editButton);
         Button shoppingListButton = convertView.findViewById(R.id.youtubeButton);
         Button viewButton = convertView.findViewById(R.id.viewButton);
+
+        //Se le asignan los onClickListener a cada uno de los botones
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +123,8 @@ public class MyRecipeListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    //Recibe listas de recetas, número de ingredientes y número de pasos a seguir y convierte cada trío de elementos en un RecipeListItem
+    //La lista resultante se convierte en la nueva lista de información de la ListView, y se notifica el cambio de información
     public void setMyRecipesList(Recipe[] recipes, int[] ingredients, int[] steps)
     {
         ArrayList<RecipeListItem> newList = new ArrayList<>();
@@ -125,6 +138,8 @@ public class MyRecipeListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    //Método que se llama cuando se pulsa el botón de eliminar receta: notifica a la view que se debe eliminar la receta, se elimina el item de la lista de información y se
+    //notifica del cambio de información
     private void deleteRecipe(RecipeListItem recipeItem)
     {
         Recipe recipe = recipeItem.recipe;
@@ -134,21 +149,25 @@ public class MyRecipeListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    //Método que se llama cuando se pulsa el botón de editar una receta. Notifica a la view que se debe pasar a editar una receta pasándole como parámetro la receta a editar
     private void editRecipe(Recipe recipe)
     {
         view.editRecipe(recipe);
     }
 
+    //Método que se llama cuando se pulsa el bóton de búsqueda en YouTube. Notifica a la view que se debe pasar a buscar la receta en YouTube
     private void searchOnYoutube(Recipe recipe)
     {
         view.searchOnYoutube(recipe);
     }
 
+    //Método que se llama cuando se pulsa el bóton de Ver con detalle. Notifica a la view que se debe pasar a ver con detalle la receta que se pasa por parámetro
     private void viewRecipe(Recipe recipe)
     {
         view.showRecipe(recipe);
     }
 
+    //Clase privada útil para manejar los datos sobre la receta que se deben mostrar. Contiene la receta en sí, el número de ingredientes y el número de pasos a seguir
     private class RecipeListItem
     {
         Recipe recipe;

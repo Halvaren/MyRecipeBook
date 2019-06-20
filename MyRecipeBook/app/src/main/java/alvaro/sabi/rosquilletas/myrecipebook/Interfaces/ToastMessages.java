@@ -1,6 +1,8 @@
-package alvaro.sabi.rosquilletas.myrecipebook;
+package alvaro.sabi.rosquilletas.myrecipebook.Interfaces;
 
 public interface ToastMessages {
+
+    //En esta interfaz quedan declarados todos los posibles mensajes que son necesarios para mostrar mediante un Toast
 
     String emptyRecipeList = "There is no saved recipes of that type";
 
@@ -11,6 +13,8 @@ public interface ToastMessages {
     String recipeSaved = "The recipe has been saved correctly";
 
     String youtubeVersion = "You don't have the suitable YouTube version for that function";
+
+    String nowInDevelopment = "Now in Development";
 
     void showToast(String message);
 }

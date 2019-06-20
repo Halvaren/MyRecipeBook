@@ -10,6 +10,10 @@ import alvaro.sabi.rosquilletas.myrecipebook.Model;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.StepToFollow;
 
+/*
+    Presenter de ShowRecipeActivity
+ */
+
 public class ShowRecipePresenter {
 
     private ShowRecipeActivity view;
@@ -21,6 +25,7 @@ public class ShowRecipePresenter {
         model = Model.getInstance(context);
     }
 
+    //Método que solicita al model la lista de ingredientes de una receta a partir de su ID
     public void requestIngredientList(int recipeID)
     {
         model.getIngredientListFromRecipe(recipeID, new Response.Listener<Ingredient[]>() {
@@ -31,6 +36,7 @@ public class ShowRecipePresenter {
         });
     }
 
+    //Método que solicita al model la lista de pasos a seguir de una receta a partir de su ID
     public void requestStepList(int recipeID)
     {
         model.getStepListFromRecipe(recipeID, new Response.Listener<StepToFollow[]>() {
@@ -41,6 +47,7 @@ public class ShowRecipePresenter {
         });
     }
 
+    //Método que toma una lista de ingredientes, sustrae sus nombres y los devuelve a la view
     public void setIngredientList(Ingredient[] ingredientList)
     {
         ArrayList<String> ingredientNameList = new ArrayList<>();
@@ -53,6 +60,7 @@ public class ShowRecipePresenter {
         view.setIngredientList(ingredientNameList);
     }
 
+    //Método que toma una lista de pasos, sustrae sus descripciones y las devuelve a la view
     public void setStepList(StepToFollow[] stepList)
     {
         ArrayList<String> stepNameList = new ArrayList<>();
@@ -65,11 +73,13 @@ public class ShowRecipePresenter {
         view.setStepList(stepNameList);
     }
 
+    //Método que solicita al model y devuelve el nombre de un tipo de receta a partir de su ID
     public String getRecipeTypeName(int typeID)
     {
         return model.getRecipeTypeName(typeID);
     }
 
+    //Método que solicita al model y devuelve el nombre de una dificiltad a partir de su ID
     public String getDifficultyName(int difficultyID)
     {
         return model.getDifficultyName(difficultyID);
