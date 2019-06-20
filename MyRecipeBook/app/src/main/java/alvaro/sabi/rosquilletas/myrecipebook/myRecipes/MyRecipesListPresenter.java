@@ -43,6 +43,7 @@ public class MyRecipesListPresenter
 
     //Método que solicita al model de la eliminación de cierta receta
     public void deleteRecipe(Recipe recipe) {
+
         model.deleteRecipe(recipe, new Response.Listener<Void>() {
             @Override
             public void onResponse(Void response) {

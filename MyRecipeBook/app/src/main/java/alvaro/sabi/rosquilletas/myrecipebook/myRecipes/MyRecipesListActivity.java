@@ -12,6 +12,7 @@ import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.MyRecipeListInterface;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
 import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.DeleteRecipeDialog;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     private int[] ingredients; //Lista de números de ingredientes de cada receta
     private int[] steps; //Lista de números de pasos de cada receta
 
+    private MyRecipeListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         //Se obtiene el elemento ListView de la layout
         myRecipesListView = findViewById(R.id.myRecipesListView);
         //Se crea y asigna el correspondiente adapter (pasándole el nombre del tipo de receta) a la ListView
-        MyRecipeListAdapter adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
+        adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
         myRecipesListView.setAdapter(adapter);
 
         //Se comprueba si venimos de un cambio de estado de la actividad
@@ -148,10 +151,12 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         startActivity(intent);
     }
 
-    //Método que se llama desde el adapter cuando se pulsa el botón de eliminar de uno de los elementos de la ListView
-    public void deleteRecipe(Recipe recipe)
+    //Método que se llama desde el dialog cuando el usuario confirma que quiere borrar la receta: avisa tanto al presenter como
+    //al adapter que deben borrar la receta
+    public void deleteRecipe(Recipe recipe, int i)
     {
         presenter.deleteRecipe(recipe);
+        adapter.deleteRecipe(i);
     }
 
     //Método que se llama desde el adapter cuando se pulsa el botón de búsqueda en YT de uno de los elementos de la ListView
@@ -179,5 +184,12 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     public void showToast(String message)
     {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    //Método que genera un dialog para comprobar si el usuario quiere borrar una receta o no
+    public void showDialog(Recipe recipe, int i)
+    {
+        DeleteRecipeDialog dialog = new DeleteRecipeDialog(this, recipe, i, this, getRecipeTypeName(recipe.typeID));
+        dialog.show(getSupportFragmentManager(), "delete");
     }
 }

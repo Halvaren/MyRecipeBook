@@ -196,10 +196,16 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //Primero el Dialog
-        finish(); //Terminamos la actividad, por lo que volvemos a la anterior actividad
+        //finish(); //Terminamos la actividad, por lo que volvemos a la anterior actividad
+        //exitFromActivity();
+        //finish();
+        showReturnDialog();
         return true;
     }
 
+    public void onBackPressed() {
+        showReturnDialog();
+    }
 
     // Listeners
 
@@ -237,7 +243,10 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
 
             //Se le indica al usuario que la receta se va a guardar
             showToast(recipeSaved);
+            //showToast(recipeSaved);
+            showDialog();
         }
+
     }
 
 
@@ -352,5 +361,16 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     public void showToast(String message) {
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDialog()
+    {
+        EditRecipeDialog dialog = new EditRecipeDialog(this);
+        dialog.show(getSupportFragmentManager(), "my_dialog");
+    }
+
+    public void showReturnDialog() {
+        ReturnRecipeDialog dialog = new ReturnRecipeDialog(this);
+        dialog.show(getSupportFragmentManager(), "my_dialog");
     }
 }

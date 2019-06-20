@@ -100,10 +100,10 @@ public class EditRecipePresenter {
     //Método que solicita al model la creación de una receta a partir de la misma, la lista de nombres de sus ingredientes y la lista de descripciones de sus pasos
     public void createRecipe(Recipe recipe, ArrayList<String> ingredients, ArrayList<String> steps)
     {
-        model.createRecipe(recipe, ingredients, steps, new Response.Listener<Void>() {
-            @Override
+       model.createRecipe(recipe, ingredients, steps, new Response.Listener<Void>() {
+           @Override
             public void onResponse(Void response) {
-                exitFromActivity();
+                //exitFromActivity();
             }
         });
     }

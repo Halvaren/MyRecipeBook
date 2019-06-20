@@ -95,7 +95,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteRecipe(recipeItem);
+                showDeleteDialog(recipeItem, position);
             }
         });
 
@@ -138,14 +138,18 @@ public class MyRecipeListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    //Método que se llama cuando se pulsa el botón de eliminar receta: notifica a la view que se debe eliminar la receta, se elimina el item de la lista de información y se
-    //notifica del cambio de información
-    private void deleteRecipe(RecipeListItem recipeItem)
+    //Método que se llama cuando se pulsa el botón de eliminar receta: pide a la view que muestre el dialog que se asegurará que el usuario
+    //quiere borrar la receta
+    private void showDeleteDialog(RecipeListItem recipeItem, int i)
     {
         Recipe recipe = recipeItem.recipe;
-        view.deleteRecipe(recipe);
-        myRecipesList.remove(recipeItem);
+        view.showDialog(recipe, i);
+    }
 
+    //Método que es llamada desde la view que se encarga de borrar un elemento determinado de la lista y de notificar el cambio de información
+    public void deleteRecipe(int i)
+    {
+        myRecipesList.remove(i);
         notifyDataSetChanged();
     }
 
