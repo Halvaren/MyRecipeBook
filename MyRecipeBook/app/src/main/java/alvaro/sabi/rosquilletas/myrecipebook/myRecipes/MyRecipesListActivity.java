@@ -2,7 +2,6 @@ package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.google.android.youtube.player.YouTubeIntents;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
 import alvaro.sabi.rosquilletas.myrecipebook.ToastMessages;
 import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.DeleteRecipeDialog;
 import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +26,8 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     private int[] ingredients;
     private int[] steps;
 
+    MyRecipeListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         String recipeTypeName = getRecipeTypeName(recipeType);
 
         myRecipesListView = findViewById(R.id.myRecipesListView);
-        MyRecipeListAdapter adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
+        adapter = new MyRecipeListAdapter(this, this, recipeTypeName);
         myRecipesListView.setAdapter(adapter);
 
         if(savedInstanceState != null)
@@ -108,9 +110,13 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
         startActivity(intent);
     }
 
-    public void deleteRecipe(Recipe recipe)
+    public void deleteRecipe(Recipe recipe, int i)
     {
+
         presenter.deleteRecipe(recipe);
+        adapter.deleteRecipe(i);
+
+
     }
 
     public void searchOnYoutube(Recipe recipe) {
@@ -135,5 +141,11 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     public void showToast(String message)
     {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDialog(Recipe recipe, int i)
+    {
+        DeleteRecipeDialog dialog = new DeleteRecipeDialog(this, recipe, i, this, getRecipeTypeName(recipe.typeID));
+        dialog.show(getSupportFragmentManager(), "delete");
     }
 }

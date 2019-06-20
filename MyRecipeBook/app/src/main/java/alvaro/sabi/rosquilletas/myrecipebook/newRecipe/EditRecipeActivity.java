@@ -2,7 +2,6 @@ package alvaro.sabi.rosquilletas.myrecipebook.newRecipe;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -221,8 +220,10 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
             recipe.id = currentRecipeID;
             presenter.createRecipe(recipe, getIngredientList(), getStepList());
 
-            showToast(recipeSaved);
+            //showToast(recipeSaved);
         }
+        showDialog();
+
     }
 
     public void exitFromActivity()
@@ -302,5 +303,11 @@ public class EditRecipeActivity extends AppCompatActivity implements ToastMessag
     public void showToast(String message)
     {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDialog()
+    {
+        EditRecipeDialog dialog = new EditRecipeDialog(this);
+        dialog.show(getSupportFragmentManager(), "my_dialog");
     }
 }

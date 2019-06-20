@@ -1,6 +1,7 @@
 package alvaro.sabi.rosquilletas.myrecipebook.myRecipes;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ public class MyRecipeListAdapter extends BaseAdapter {
     private ArrayList<RecipeListItem> myRecipesList;
 
     private String recipeTypeName;
+
+    public boolean recipeDeleted = false;
 
     public MyRecipeListAdapter(MyRecipesListActivity view, Context context, String recipeTypeName)
     {
@@ -84,7 +87,7 @@ public class MyRecipeListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteRecipe(recipeItem);
+                showDeleteDialog(recipeItem, position);
             }
         });
 
@@ -125,13 +128,21 @@ public class MyRecipeListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private void deleteRecipe(RecipeListItem recipeItem)
+    private void showDeleteDialog(RecipeListItem recipeItem, int i)
     {
         Recipe recipe = recipeItem.recipe;
-        view.deleteRecipe(recipe);
-        myRecipesList.remove(recipeItem);
+        view.showDialog(recipe, i);
 
+        //if (recipeDeleted == true) myRecipesList.remove(recipeItem);
+        Log.d("lk", Boolean.toString(recipeDeleted));
+
+       // notifyDataSetChanged();
+    }
+
+    public void deleteRecipe(int i){
+        myRecipesList.remove(i);
         notifyDataSetChanged();
+
     }
 
     private void editRecipe(Recipe recipe)

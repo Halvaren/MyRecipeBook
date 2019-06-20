@@ -1,11 +1,9 @@
 package alvaro.sabi.rosquilletas.myrecipebook.newRecipe;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Response;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.Model;
@@ -86,10 +84,10 @@ public class EditRecipePresenter {
 
     public void createRecipe(Recipe recipe, ArrayList<String> ingredients, ArrayList<String> steps)
     {
-        model.createRecipe(recipe, ingredients, steps, new Response.Listener<Void>() {
-            @Override
+       model.createRecipe(recipe, ingredients, steps, new Response.Listener<Void>() {
+           @Override
             public void onResponse(Void response) {
-                exitFromActivity();
+                //exitFromActivity();
             }
         });
     }
