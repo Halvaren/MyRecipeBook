@@ -8,12 +8,15 @@
 
     <Button
         android:id="@+id/appetizerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+
         android:layout_marginStart="32dp"
         android:layout_marginEnd="16dp"
-        android:onClick="onClickAppetizer"
+        android:background="@drawable/appetizer"
+        android:onClick="OnClickAppetizer"
         android:text="Appetizers"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/secondCourseButton"
         app:layout_constraintEnd_toStartOf="@+id/starterButton"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -22,54 +25,67 @@
 
     <Button
         android:id="@+id/sauceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickSauce"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:background="@drawable/sauce"
+
+        android:onClick="OnClickSauce"
         android:text="Sauces"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/drinkButton"
         app:layout_constraintEnd_toEndOf="@+id/starterButton"
         app:layout_constraintTop_toBottomOf="@+id/starterButton" />
 
     <Button
         android:id="@+id/dessertButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickDessert"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:background="@drawable/desert"
+        android:onClick="OnClickDessert"
         android:text="Desserts"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/secondCourseButton"
         app:layout_constraintTop_toBottomOf="@+id/secondCourseButton" />
 
     <Button
         android:id="@+id/drinkButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickDrink"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:background="@drawable/drinks"
+        android:onClick="OnClickDrink"
         android:text="Drinks/Cocktail"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/sauceButton"
         app:layout_constraintTop_toBottomOf="@+id/sauceButton" />
 
     <Button
         android:id="@+id/starterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="32dp"
-        android:onClick="onClickStarter"
+        android:background="@drawable/starter"
+        android:onClick="OnClickStarter"
         android:text="Starters"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sauceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/appetizerButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39999998" />
 
     <Button
         android:id="@+id/secondCourseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickSecondCourse"
+        android:layout_width="95dp"
+        android:layout_height="93dp"
+        android:background="@drawable/second"
+        android:onClick="OnClickSecondCourse"
         android:text="Second courses"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/dessertButton"
         app:layout_constraintStart_toStartOf="@+id/appetizerButton"
         app:layout_constraintTop_toBottomOf="@+id/appetizerButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
