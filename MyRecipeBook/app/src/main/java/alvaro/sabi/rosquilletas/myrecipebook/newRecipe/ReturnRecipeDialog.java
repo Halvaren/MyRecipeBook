@@ -38,7 +38,7 @@ public class ReturnRecipeDialog extends DialogFragment {
                         dialog.dismiss();
                     }
                 });
-        
+
         return builder.create();
     }
 }
