@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.R;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.database.Recipe;
 
 /*
     Adapter para la ListView de recetas de la actividad MyRecipeList

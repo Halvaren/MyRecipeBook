@@ -17,23 +17,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".myRecipes.RecipeTypesActivity"></activity>
+        <activity android:name=".recipeTypes.RecipeTypesActivity"></activity>
 
         <activity android:name=".myRecipes.MyRecipesListActivity"></activity>
 
-        <activity android:name=".myRecipes.ShowRecipeActivity"></activity>
+        <activity android:name=".showRecipe.ShowRecipeActivity"></activity>
 
-        <activity android:name=".newRecipe.EditRecipeActivity"></activity>
-
-        <activity android:name=".shoppingLists.ShoppingListsActivity"></activity>
-
-        <activity android:name=".shoppingLists.ItemListActivity"></activity>
-
-        <activity android:name=".menuCreator.MenuCreatorActivity"></activity>
-
-        <activity android:name=".menuCreator.EditMenuActivity"></activity>
-
-        <activity android:name=".menuCreator.ShowMenuActivity"></activity>
+        <activity android:name=".editRecipe.EditRecipeActivity"></activity>
     </application>
 
 </manifest>

@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.MainActivityInterface;
-import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.ToastMessages;
-import alvaro.sabi.rosquilletas.myrecipebook.myRecipes.RecipeTypesActivity;
-import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
+import alvaro.sabi.rosquilletas.myrecipebook.interfaces.MainActivityInterface;
+import alvaro.sabi.rosquilletas.myrecipebook.interfaces.ToastMessages;
+import alvaro.sabi.rosquilletas.myrecipebook.recipeTypes.RecipeTypesActivity;
+import alvaro.sabi.rosquilletas.myrecipebook.editRecipe.EditRecipeActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 

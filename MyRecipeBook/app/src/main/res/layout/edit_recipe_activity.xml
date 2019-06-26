@@ -9,7 +9,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/portrait_background">
 
         <EditText
             android:id="@+id/editRecipeNameField"
@@ -111,9 +112,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_style"
+            android:onClick="addNewIngredient"
             android:text="+"
             android:textSize="12dp"
-            android:onClick="addNewIngredient"
             app:layout_constraintEnd_toEndOf="@+id/editRecipeNGuestsSeekBar"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/editRecipeIngredientsText"
@@ -128,9 +129,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_style"
+            android:onClick="addNewStep"
             android:text="+"
             android:textSize="12dp"
-            android:onClick="addNewStep"
             app:layout_constraintEnd_toEndOf="@+id/editRecipeNGuestsSeekBar"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/editRecipeStepsText"
@@ -216,8 +217,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Finish"
             android:onClick="finishRecipe"
+            android:text="Finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editRecipeDifficultySpinner" />

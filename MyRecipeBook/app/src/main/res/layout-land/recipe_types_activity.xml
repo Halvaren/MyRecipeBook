@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/landscape_background">
 
     <Button
         android:id="@+id/appetizerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
         android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
+        android:background="@drawable/appetizer"
         android:onClick="onClickAppetizer"
         android:text="Appetizers"
         app:layout_constraintBottom_toTopOf="@+id/secondCourseButton"
@@ -22,8 +23,9 @@
 
     <Button
         android:id="@+id/sauceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/sauce"
         android:onClick="onClickSauce"
         android:text="Sauces"
         app:layout_constraintBottom_toTopOf="@+id/drinkButton"
@@ -34,8 +36,9 @@
 
     <Button
         android:id="@+id/dessertButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/desert"
         android:onClick="onClickDessert"
         android:text="Desserts"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,8 +48,9 @@
 
     <Button
         android:id="@+id/drinkButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/drinks"
         android:onClick="onClickDrink"
         android:text="Drinks/Cocktail"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,10 +60,10 @@
 
     <Button
         android:id="@+id/starterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
+        android:background="@drawable/starter"
         android:onClick="onClickStarter"
         android:text="Starters"
         app:layout_constraintBottom_toTopOf="@+id/sauceButton"
@@ -69,8 +73,9 @@
 
     <Button
         android:id="@+id/secondCourseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:background="@drawable/second"
         android:onClick="onClickSecondCourse"
         android:text="Second courses"
         app:layout_constraintBottom_toTopOf="@+id/dessertButton"

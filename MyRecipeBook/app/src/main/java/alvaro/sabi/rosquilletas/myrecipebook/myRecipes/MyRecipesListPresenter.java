@@ -7,7 +7,7 @@ import com.android.volley.Response;
 import java.util.ArrayList;
 
 import alvaro.sabi.rosquilletas.myrecipebook.Model;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.database.Recipe;
 
 /*
     Presenter de MyRecipesListActivity

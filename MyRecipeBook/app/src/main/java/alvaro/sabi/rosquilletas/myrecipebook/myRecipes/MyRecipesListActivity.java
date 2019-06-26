@@ -8,12 +8,13 @@ import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeIntents;
 
-import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.MyRecipeListInterface;
+import alvaro.sabi.rosquilletas.myrecipebook.interfaces.MyRecipeListInterface;
 import alvaro.sabi.rosquilletas.myrecipebook.R;
-import alvaro.sabi.rosquilletas.myrecipebook.Interfaces.ToastMessages;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
-import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.DeleteRecipeDialog;
-import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipeActivity;
+import alvaro.sabi.rosquilletas.myrecipebook.interfaces.ToastMessages;
+import alvaro.sabi.rosquilletas.myrecipebook.database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.dialogs.DeleteRecipeDialog;
+import alvaro.sabi.rosquilletas.myrecipebook.editRecipe.EditRecipeActivity;
+import alvaro.sabi.rosquilletas.myrecipebook.showRecipe.ShowRecipeActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -189,7 +190,7 @@ public class MyRecipesListActivity extends AppCompatActivity implements ToastMes
     //Método que genera un dialog para comprobar si el usuario quiere borrar una receta o no
     public void showDeleteRecipeDialog(Recipe recipe, int i)
     {
-        DeleteRecipeDialog dialog = new DeleteRecipeDialog(this, recipe, i, this, getRecipeTypeName(recipe.typeID));
+        DeleteRecipeDialog dialog = new DeleteRecipeDialog(this, recipe, i);
         dialog.show(getSupportFragmentManager(), "delete");
     }
 }

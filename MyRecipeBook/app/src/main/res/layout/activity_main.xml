@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/portrait_background"
     tools:context=".MainActivity">
 
     <Button
@@ -26,7 +27,7 @@
         android:id="@+id/newRecipeButton"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/new_recipe"
         android:onClick="onClickNewRecipe"
         android:text="New recipe"
@@ -41,7 +42,7 @@
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="84dp"
         android:background="@drawable/shopping_list"
         android:onClick="onClickShoppingLists"
@@ -55,7 +56,7 @@
         android:id="@+id/menuCreatorButton"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="84dp"
         android:background="@drawable/menu_creator"

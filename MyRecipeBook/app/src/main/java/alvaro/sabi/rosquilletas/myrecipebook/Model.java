@@ -3,22 +3,18 @@ package alvaro.sabi.rosquilletas.myrecipebook;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.android.volley.Response;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Ingredient;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.Recipe;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeDao;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeDatabase;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.RecipeIngredients;
-import alvaro.sabi.rosquilletas.myrecipebook.model.Database.StepToFollow;
-import alvaro.sabi.rosquilletas.myrecipebook.newRecipe.EditRecipePresenter;
+import alvaro.sabi.rosquilletas.myrecipebook.database.Ingredient;
+import alvaro.sabi.rosquilletas.myrecipebook.database.Recipe;
+import alvaro.sabi.rosquilletas.myrecipebook.database.RecipeDao;
+import alvaro.sabi.rosquilletas.myrecipebook.database.RecipeDatabase;
+import alvaro.sabi.rosquilletas.myrecipebook.database.RecipeIngredients;
+import alvaro.sabi.rosquilletas.myrecipebook.database.StepToFollow;
+import alvaro.sabi.rosquilletas.myrecipebook.editRecipe.EditRecipePresenter;
 import androidx.room.Room;
 
 public class Model {

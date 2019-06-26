@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/portrait_background">
 
     <Button
         android:id="@+id/appetizerButton"
@@ -14,7 +15,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/appetizer"
-        android:onClick="OnClickAppetizer"
+        android:onClick="onClickAppetizer"
         android:text="Appetizers"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/secondCourseButton"
@@ -29,7 +30,7 @@
         android:layout_height="95dp"
         android:background="@drawable/sauce"
 
-        android:onClick="OnClickSauce"
+        android:onClick="onClickSauce"
         android:text="Sauces"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/drinkButton"
@@ -41,7 +42,7 @@
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:background="@drawable/desert"
-        android:onClick="OnClickDessert"
+        android:onClick="onClickDessert"
         android:text="Desserts"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +54,7 @@
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:background="@drawable/drinks"
-        android:onClick="OnClickDrink"
+        android:onClick="onClickDrink"
         android:text="Drinks/Cocktail"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +68,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/starter"
-        android:onClick="OnClickStarter"
+        android:onClick="onClickStarter"
         android:text="Starters"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sauceButton"
@@ -81,7 +82,7 @@
         android:layout_width="95dp"
         android:layout_height="93dp"
         android:background="@drawable/second"
-        android:onClick="OnClickSecondCourse"
+        android:onClick="onClickSecondCourse"
         android:text="Second courses"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/dessertButton"
